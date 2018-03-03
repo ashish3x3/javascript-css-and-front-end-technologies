@@ -1,0 +1,3157 @@
+
+ 
+ng model ='your name' and {{yourname}} should be same
+
+Templates − These are the rendered view with information from the controller and model. These can be a single file (like index.html) or multiple views in one page using "partials"
+
+Directives − Directives are markers on DOM elements (such as elements, attributes, css, and more). These can be used to create custom HTML tags that serve as new, custom widgets. AngularJS has built-in directives (ngBind, ngModel...)
+
+Routing − It is concept of switching views.
+
+
+Deep Linking − Deep linking allows you to encode the state of application in the URL so that it can be bookmarked. The application can then be restored from the URL to the same state.
+
+Dependency Injection − AngularJS has a built-in dependency injection subsystem that helps the developer by making the application easier to develop, understand, and test.
+
+AngularJS code is unit testable.
+
+AngularJS uses dependency injection and make use of separation of concerns.
+
+AngularJS provides reusable components.
+
+In AngularJS, views are pure html pages, and controllers written in JavaScript do the business processing.
+
+Not Secure − Being JavaScript only framework, application written in AngularJS are not safe. Server side authentication and authorization is must to keep an application secure.
+
+Not degradable − If your application user disables JavaScript then user will just see the basic page and nothing more.
+
+The AngularJS Components
+The AngularJS framework can be divided into following three major parts −
+
+ng-app − This directive defines and links an AngularJS application to HTML.
+
+ng-model − This directive binds the values of AngularJS application data to HTML input controls.
+
+ng-bind − This directive binds the AngularJS Application data to HTML tags.
+
+The controller function is registered in angular via the angular.module(...).controller(...) function call.
+
+The $scope parameter passed to the controller function is the model. The controller function adds a helloTo JavaScript object, and in that object it adds a title field.
+		.controller("HelloController", function($scope) {
+
+
+
+
+<div ng-app = "">
+         <p>Enter your Name: <input type = "text" ng-model = "name"></p>
+         <p>Hello <span ng-bind = "name"></span>!</p>
+      </div>
+
+
+
+ How AngularJS integrates with HTML
+
+ng-app directive indicates the start of AngularJS application.
+
+ng-model directive then creates a model variable named "name" which can be used with the html page and within the div having ng-app directive.
+
+ng-bind then uses the name model to be displayed in the html span tag whenever user input something in the text box.
+
+Closing</div> tag indicates the end of AngularJS application.
+
+
+
+AngularJS directives are used to extend HTML. These are special attributes starting with ng- prefix. We're going to discuss following directives −
+
+ng-app − This directive starts an AngularJS Application.
+
+ng-init − This directive initializes application data.
+
+ng-model − This directive defines the model that is variable to be used in AngularJS.
+
+ng-repeat − This directive repeats html elements for each item in a collection.
+
+
+
+
+<html>
+   
+   <head>
+      <title>AngularJS Directives</title>
+   </head>
+   
+   <body>
+      <h1>Sample Application</h1>
+      
+      <div ng-app = "" ng-init = "countries = [{locale:'en-US',name:'United States'}, {locale:'en-GB',name:'United Kingdom'}, {locale:'en-FR',name:'France'}]"> 
+         <p>Enter your Name: <input type = "text" ng-model = "name"></p>
+         <p>Hello <span ng-bind = "name"></span>!</p>
+         <p>List of Countries with locale:</p>
+      
+         <ol>
+            <li ng-repeat = "country in countries">
+               {{ 'Country: ' + country.name + ', Locale: ' + country.locale }}
+            </li>
+         </ol>
+      </div>
+      
+      <script src = "http://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
+      
+   </body>
+</html>
+
+
+
+AngularJS - Expressions
+{{ expression}}
+
+<p>Expense on Books : {{cost * quantity}} Rs</p>
+
+AngularJS - Controllers
+
+<div ng-app = "" ng-controller = "studentController">
+ 	Enter first name: <input type = "text" ng-model = "student.firstName"><br>
+Enter last name: <input type = "text" ng-model = "student.lastName"><br>
+<br>
+You are entering: {{student.fullName()}}
+</div>
+
+<script>
+   function studentController($scope) {
+      $scope.student = {
+         firstName: "Mahesh",
+         lastName: "Parashar",
+         
+         fullName: function() {
+            var studentObject;
+            studentObject = $scope.student;
+            return studentObject.firstName + " " + studentObject.lastName;
+         }
+      };
+   }
+</script>
+
+
+
+AngularJS - Filters
+
+Name in Upper Case: {{student.fullName() | uppercase}}
+
+
+
+var mainApp = angular.module("mainApp", []);
+         
+         mainApp.controller('studentController', function($scope) {
+            $scope.student = {
+               firstName: "Mahesh",
+               lastName: "Parashar",
+               fees:500,
+               
+               subjects:[
+                  {name:'Physics',marks:70},
+                  {name:'Chemistry',marks:80},
+                  {name:'Math',marks:65}
+               ],
+               
+               fullName: function() {
+                  var studentObject;
+                  studentObject = $scope.student;
+                  return studentObject.firstName + " " + studentObject.lastName;
+               }
+            };
+         });
+      </script>
+
+
+      Enter subject: <input type = "text" ng-model = "subjectName">
+Subject:
+<ul>
+  <li ng-repeat = "subject in student.subjects | filter: subjectName">
+     {{ subject.name + ', marks:' + subject.marks }}
+  </li>
+</ul>
+
+
+
+
+<li ng-repeat = "subject in student.subjects | orderBy:'marks'">
+
+
+AngularJS - Tables
+
+<table>
+   <tr>
+      <th>Name</th>
+      <th>Marks</th>
+   </tr>
+   
+   <tr ng-repeat = "subject in student.subjects">
+      <td>{{ subject.name }}</td>
+      <td>{{ subject.marks }}</td>
+   </tr>
+</table>
+Table can be styled using CSS Styling.
+
+<style>
+   table, th , td {
+      border: 1px solid grey;
+      border-collapse: collapse;
+      padding: 5px;
+   }
+   
+   table tr:nth-child(odd) {
+      background-color: #f2f2f2;
+   }
+
+   table tr:nth-child(even) {
+      background-color: #ffffff;
+   }
+</style>
+
+
+AngularJS - HTML DOM
+
+can be used to bind application data to attributes of HTML DOM Elements.
+
+1	ng-disabled	disables a given control.
+2	ng-show	    shows a given control.
+3	ng-hide	    hides a given control.
+4	ng-click	represents a AngularJS click event.
+
+<input type = "checkbox" ng-model = "enableDisableButton">Disable Button
+<button ng-disabled = "enableDisableButton">Click Me!</button>
+
+<input type = "checkbox" ng-model = "showHide1">Show Button
+<button ng-show = "showHide1">Click Me!</button>
+
+<input type = "checkbox" ng-model = "showHide2">Hide Button
+<button ng-hide = "showHide2">Click Me!</button>
+
+<p>Total click: {{ clickCounter }}</p>
+<button ng-click = "clickCounter = clickCounter + 1">Click Me!</button>
+
+
+
+AngularJS - Modules
+
+AngularJS supports modular approach. Modules are used to separate logics say services, controllers, application etc.
+
+We define modules in separate js files and name them as per the module.js file.
+
+Application Module − used to initialize an application with controller(s).
+
+Controller Module − used to define the controller.
+
+mainApp.js
+
+var mainApp = angular.module("mainApp", []);
+Here we've declared an application mainApp module using angular.module function. We've passed an empty array to it. This array generally contains dependent modules.
+
+
+Controller Module
+studentController.js
+
+mainApp.controller("studentController", function($scope) {
+   $scope.student = {
+      firstName: "Mahesh",
+      lastName: "Parashar",
+      fees:500,
+      
+      subjects:[
+         {name:'Physics',marks:70},
+         {name:'Chemistry',marks:80},
+         {name:'Math',marks:65},
+         {name:'English',marks:75},
+         {name:'Hindi',marks:67}
+      ],
+      
+      fullName: function() {
+         var studentObject;
+         studentObject = $scope.student;
+         return studentObject.firstName + " " + studentObject.lastName;
+      }
+   };
+});
+
+Use Modules
+<div ng-app = "mainApp" ng-controller = "studentController">
+   ...
+   <script src = "mainApp.js"></script>
+   <script src = "studentController.js"></script>
+	
+</div>
+
+<head>
+      <title>Angular JS Modules</title>
+      <script src = "http://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
+      <script src = "/angularjs/src/module/mainApp.js"></script>
+      <script src = "/angularjs/src/module/studentController.js"></script>
+      
+
+      <div ng-app = "mainApp" ng-controller = "studentController">
+
+
+
+
+AngularJS - Forms
+
+We can use ng-click to handle AngularJS click on button and use $dirty and $invalid flags to do the validations in seemless way. Use novalidate with a form declaration to disable any browser specific validation.
+
+ng-click
+ng-dbl-click
+ng-mousedown
+ng-mouseup
+ng-mouseenter
+ng-mouseleave
+ng-mousemove
+ng-mouseover
+ng-keydown
+ng-keyup
+ng-keypress
+ng-change
+
+
+ng-click
+Reset data of a form using on-click directive of a button.
+
+<input name = "firstname" type = "text" ng-model = "firstName" required>
+<input name = "lastname" type = "text" ng-model = "lastName" required>
+<input name = "email" type = "email" ng-model = "email" required>
+<button ng-click = "reset()">Reset</button>
+
+<script>
+   function studentController($scope) { 
+      $scope.reset = function(){
+         $scope.firstName = "Mahesh";
+         $scope.lastName = "Parashar";
+         $scope.email = "MaheshParashar@tutorialspoint.com";
+      }   
+      
+      $scope.reset();
+   }
+</script>
+
+
+Validate data
+Following can be used to track error.
+
+$dirty − states that value has been changed.
+
+$invalid − states that value entered is invalid.
+
+$error − states the exact error.
+
+
+<tr>
+                  <td>Email: </td><td><input name = "email" type = "email" ng-model = "email" length = "100" required>
+                     <span style = "color:red" ng-show = "studentForm.email.$dirty && studentForm.email.$invalid">
+                        <span ng-show = "studentForm.email.$error.required">Email is required.</span>
+                        <span ng-show = "studentForm.email.$error.email">Invalid email address.</span>
+                     </span>
+                  </td>
+               </tr>
+               
+               <tr>
+                  <td>
+                     <button ng-click = "reset()">Reset</button>
+                  </td>
+                  <td>
+                     <button ng-disabled = "studentForm.firstname.$dirty &&
+                        studentForm.firstname.$invalid || studentForm.lastname.$dirty &&
+                        studentForm.lastname.$invalid || studentForm.email.$dirty &&
+                        studentForm.email.$invalid" ng-click="submit()">Submit</button>
+                  </td>
+               </tr>
+					
+            </table>
+
+
+
+AngularJS - Includes
+
+HTML does not support embedding html pages within html page. To achieve this functionality following ways are used −
+
+Using Ajax − Make a server call to get the corresponding html page and set it in innerHTML of html control.
+
+Using Server Side Includes − JSP, PHP and other web side server technologies can include html pages within a dynamic page.
+
+<div ng-app = "" ng-controller = "studentController">
+   <div ng-include = "'main.htm'"></div>
+   <div ng-include = "'subjects.htm'"></div>
+</div>
+
+
+ <body>
+      
+      <h2>AngularJS Sample Application</h2>
+      
+      <div ng-app = "mainApp" ng-controller="studentController">
+         <div ng-include = "'/angularjs/src/include/main.htm'"></div>
+         <div ng-include = "'/angularjs/src/include/subjects.htm'"></div>
+      </div>
+      
+      <script>
+         var mainApp = angular.module("mainApp", []);
+         
+         mainApp.controller('studentController', function($scope) {
+            $scope.student = {
+               firstName: "Mahesh",
+               lastName: "Parashar",
+               fees:500,
+               
+               subjects:[
+                  {name:'Physics',marks:70},
+                  {name:'Chemistry',marks:80},
+                  {name:'Math',marks:65},
+                  {name:'English',marks:75},
+                  {name:'Hindi',marks:67}
+               ],
+               
+               fullName: function() {
+                  var studentObject;
+                  studentObject = $scope.student;
+                  return studentObject.firstName + " " + studentObject.lastName;
+               }
+            };
+         });
+      </script>
+     
+     main.htm 
+    <table border = "0">
+   <tr>
+      <td>Enter first name:</td>
+      <td><input type = "text" ng-model = "student.firstName"></td>
+   </tr>
+   
+   <tr>
+
+subjects.htm
+ <tr ng-repeat = "subject in student.subjects">
+      <td>{{ subject.name }}</td>
+      <td>{{ subject.marks }}</td>
+   </tr>
+
+
+
+ AngularJS - Ajax
+
+ AngularJS provides $http control which works as a service to read data from the server. 
+ The server makes a database call to get the desired records. 
+
+ AngularJS needs data in JSON format.
+
+ <script>
+         function studentController($scope,$http) {
+            var url = "data.txt";
+         
+            $http.get(url).success( function(response) {
+               $scope.students = response;
+            });
+         }
+      </script>
+
+
+   data.txt
+[
+   {
+      "Name" : "Mahesh Parashar",
+      "RollNo" : 101,
+      "Percentage" : "80%"
+   },
+	
+   {
+      "Name" : "Dinkar Kad",
+      "RollNo" : 201,
+      "Percentage" : "70%"
+   },
+
+
+AngularJS - Views
+
+AngularJS supports Single Page Application via multiple views on a single page. To do this AngularJS has provided ng-view and ng-template directives and $routeProvider services.
+
+ng-view
+ng-view tag simply creates a place holder where a corresponding view (html or ng-template view) can be placed based on the configuration.
+
+Usage
+Define a div with ng-view within the main module.
+
+<div ng-app = "mainApp">
+   ...
+   <div ng-view></div>
+
+</div>    
+
+ng-template
+ng-template directive is used to create an html view using script tag. It contains "id" attribute which is used by $routeProvider to map a view with a controller.
+
+Usage
+Define a script block with type as ng-template within the main module.
+
+<div ng-app = "mainApp">
+   ...
+	
+   <script type = "text/ng-template" id = "addStudent.htm">
+      <h2> Add Student </h2>
+      {{message}}
+   </script>
+
+</div>  
+
+
+$routeProvider
+$routeProvider is the key service which set the configuration of urls, map them with the corresponding html page or ng-template, and attach a controller with the same.
+
+
+Define a script block with main module and set the routing configuration.
+
+var mainApp = angular.module("mainApp", ['ngRoute']);
+
+mainApp.config(['$routeProvider', function($routeProvider) {
+   $routeProvider.
+   
+   when('/addStudent', {
+      templateUrl: 'addStudent.htm', controller: 'AddStudentController'
+   }).
+   
+   when('/viewStudents', {
+      templateUrl: 'viewStudents.htm', controller: 'ViewStudentsController'
+   }).
+   
+   otherwise({
+      redirectTo: '/addStudent'
+   });
+	
+}]);
+
+
+Following are the important points to be considered in above example.
+
+$routeProvider is defined as a function under config of mainApp module using key as '$routeProvider'.
+
+$routeProvider.when defines a url "/addStudent" which then is mapped to "addStudent.htm". addStudent.htm should be present in the same path as main html page.If htm page is not defined then ng-template to be used with id="addStudent.htm". We've used ng-template.
+
+"otherwise" is used to set the default view.
+
+"controller" is used to set the corresponding controller for the view.
+
+
+      <script>
+         var mainApp = angular.module("mainApp", ['ngRoute']);
+         mainApp.config(['$routeProvider', function($routeProvider) {
+            $routeProvider.
+            
+            when('/addStudent', {
+               templateUrl: 'addStudent.htm',
+               controller: 'AddStudentController'
+            }).
+            
+            when('/viewStudents', {
+               templateUrl: 'viewStudents.htm',
+               controller: 'ViewStudentsController'
+            }).
+            
+            otherwise({
+               redirectTo: '/addStudent'
+            });
+         }]);
+         
+         mainApp.controller('AddStudentController', function($scope) {
+            $scope.message = "This page will be used to display add student form";
+         });
+         
+         mainApp.controller('ViewStudentsController', function($scope) {
+            $scope.message = "This page will be used to display all the students";
+         });
+			
+      </script>
+
+
+
+
+
+AngularJS - Scopes
+
+Scope is a special javascript object which plays the role of joining controller with the views. Scope contains the model data. In controllers, model data is accessed via $scope object.
+
+<script>
+   var mainApp = angular.module("mainApp", []);
+   
+   mainApp.controller("shapeController", function($scope) {
+      $scope.message = "In shape controller";
+      $scope.type = "Shape";
+   });
+</script>
+
+$scope is passed as first argument to controller during its constructor definition.
+
+$scope.message and $scope.type are the models which are to be used in the HTML page.
+
+We've set values to models which will be reflected in the application module whose controller is shapeController.
+
+We can define functions as well in $scope.
+
+
+
+Scope Inheritance
+Scope are controllers specific. If we defines nested controllers then child controller will inherit the scope of its parent controller.
+
+<script>
+   var mainApp = angular.module("mainApp", []);
+   
+   mainApp.controller("shapeController", function($scope) {
+      $scope.message = "In shape controller";
+      $scope.type = "Shape";
+   });
+   
+   mainApp.controller("circleController", function($scope) {
+      $scope.message = "In circle controller";
+   });
+	
+</script>
+Following are the important points to be considered in above example.
+
+We've set values to models in shapeController.
+
+We've overridden message in child controller circleController. When "message" is used within module of controller circleController, the overridden message will be used.
+
+<div ng-app = "mainApp" ng-controller = "shapeController">
+         <p>{{message}} <br/> {{type}} </p>
+         
+         <div ng-controller = "circleController">
+            <p>{{message}} <br/> {{type}} </p>
+         </div>
+         
+         <div ng-controller = "squareController">
+            <p>{{message}} <br/> {{type}} </p>
+         </div>
+
+
+
+<script src = "http://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
+      
+      <script>
+         var mainApp = angular.module("mainApp", []);
+         
+         mainApp.controller("shapeController", function($scope) {
+            $scope.message = "In shape controller";
+            $scope.type = "Shape";
+         });
+         
+         mainApp.controller("circleController", function($scope) {
+            $scope.message = "In circle controller";
+         });
+         
+         mainApp.controller("squareController", function($scope) {
+            $scope.message = "In square controller";
+            $scope.type = "Square";
+         });
+			
+      </script>
+
+
+
+AngularJS - Services
+
+AngularJS supports the concepts of "Separation of Concerns" using services architecture. Services are javascript functions and are responsible to do a specific tasks only. This makes them an individual entity which is maintainable and testable. Controllers, filters can call them as on requirement basis. Services are normally injected using dependency injection mechanism of AngularJS.
+
+AngularJS provides many inbuilt services for example, $http, $route, $window, $location etc. Each service is responsible for a specific task for example, $http is used to make ajax call to get the server data. $route is used to define the routing information and so on. Inbuilt services are always prefixed with $ symbol.
+
+There are two ways to create a service.
+
+factory
+service
+Using factory method
+Using factory method, we first define a factory and then assign method to it.
+
+var mainApp = angular.module("mainApp", []);
+mainApp.factory('MathService', function() {
+   var factory = {};
+   
+   factory.multiply = function(a, b) {
+      return a * b
+   }
+   
+   return factory;
+}); 
+Using service method
+Using service method, we define a service and then assign method to it. We've also injected an already available service to it.
+
+mainApp.service('CalcService', function(MathService){
+   this.square = function(a) {
+      return MathService.multiply(a,a);
+   }
+});
+
+
+ 
+      <div ng-app = "mainApp" ng-controller = "CalcController">
+         <p>Enter a number: <input type = "number" ng-model = "number" /></p>
+         <button ng-click = "square()">X<sup>2</sup></button>
+         <p>Result: {{result}}</p>
+      </div>
+      
+      <script>
+         var mainApp = angular.module("mainApp", []);
+         
+         mainApp.factory('MathService', function() {
+            var factory = {};
+            
+            factory.multiply = function(a, b) {
+               return a * b
+            }
+            return factory;
+         });
+         
+         mainApp.service('CalcService', function(MathService){
+            this.square = function(a) {
+               return MathService.multiply(a,a);
+            }
+         });
+         
+         mainApp.controller('CalcController', function($scope, CalcService) {
+            $scope.square = function() {
+               $scope.result = CalcService.square($scope.number);
+            }
+         });
+      </script>
+
+
+
+
+
+AngularJS - Dependency Injection
+
+
+Dependency Injection is a software design pattern in which components are given their dependencies instead of hard coding them within the component. This relieves a component from locating the dependency and makes dependencies configurable. This helps in making components reusable, maintainable and testable.
+
+AngularJS provides a supreme Dependency Injection mechanism. It provides following core components which can be injected into each other as dependencies.
+
+value
+factory
+service
+provider
+constant
+
+
+alue
+value is simple javascript object and it is used to pass values to controller during config phase.
+
+//define a module
+var mainApp = angular.module("mainApp", []);
+
+//create a value object as "defaultInput" and pass it a data.
+mainApp.value("defaultInput", 5);
+...
+
+//inject the value in the controller using its name "defaultInput"
+mainApp.controller('CalcController', function($scope, CalcService, defaultInput) {
+   $scope.number = defaultInput;
+   $scope.result = CalcService.square($scope.number);
+   
+   $scope.square = function() {
+      $scope.result = CalcService.square($scope.number);
+   }
+});
+
+
+factory
+factory is a function which is used to return value. It creates value on demand whenever a service or controller requires. It normally uses a factory function to calculate and return the value.
+
+//define a module
+var mainApp = angular.module("mainApp", []);
+
+//create a factory "MathService" which provides a method multiply to return multiplication of two numbers
+mainApp.factory('MathService', function() {
+   var factory = {};
+   
+   factory.multiply = function(a, b) {
+      return a * b
+   }
+   return factory;
+}); 
+
+//inject the factory "MathService" in a service to utilize the multiply method of factory.
+mainApp.service('CalcService', function(MathService){
+   this.square = function(a) {
+      return MathService.multiply(a,a);
+   }
+});
+...
+
+
+service
+service is a singleton javascript object containing a set of functions to perform certain tasks. Services are defined using service() functions and then injected into controllers.
+
+//define a module
+var mainApp = angular.module("mainApp", []);
+...
+
+//create a service which defines a method square to return square of a number.
+mainApp.service('CalcService', function(MathService){
+   this.square = function(a) {
+      return MathService.multiply(a,a); 
+   }
+});
+
+//inject the service "CalcService" into the controller
+mainApp.controller('CalcController', function($scope, CalcService, defaultInput) {
+   $scope.number = defaultInput;
+   $scope.result = CalcService.square($scope.number);
+   
+   $scope.square = function() {
+      $scope.result = CalcService.square($scope.number);
+   }
+});
+
+provider
+provider is used by AngularJS internally to create services, factory etc. during config phase(phase during which AngularJS bootstraps itself). Below mention script can be used to create MathService that we've created earlier. Provider is a special factory method with a method get() which is used to return the value/service/factory.
+
+//define a module
+var mainApp = angular.module("mainApp", []);
+...
+
+//create a service using provider which defines a method square to return square of a number.
+mainApp.config(function($provide) {
+   $provide.provider('MathService', function() {
+      this.$get = function() {
+         var factory = {};  
+         
+         factory.multiply = function(a, b) {
+            return a * b; 
+         }
+         return factory;
+      };
+   });
+});
+
+
+constant
+constants are used to pass values at config phase considering the fact that value can not be used to be passed during config phase.
+
+
+      <script>
+         var mainApp = angular.module("mainApp", []);
+         
+         mainApp.config(function($provide) {
+            $provide.provider('MathService', function() {
+               this.$get = function() {
+                  var factory = {};
+                  
+                  factory.multiply = function(a, b) {
+                     return a * b;
+                  }
+                  return factory;
+               };
+            });
+         });
+			
+         mainApp.value("defaultInput", 5);
+         
+         mainApp.factory('MathService', function() {
+            var factory = {};
+            
+            factory.multiply = function(a, b) {
+               return a * b;
+            }
+            return factory;
+         });
+         
+         mainApp.service('CalcService', function(MathService){
+            this.square = function(a) {
+               return MathService.multiply(a,a);
+            }
+         });
+         
+         mainApp.controller('CalcController', function($scope, CalcService, defaultInput) {
+            $scope.number = defaultInput;
+            $scope.result = CalcService.square($scope.number);
+
+            $scope.square = function() {
+               $scope.result = CalcService.square($scope.number);
+            }
+         });
+			
+      </script>
+
+
+AngularJS - Custom Directives
+
+
+Element directives − Directive activates when a matching element is encountered.
+
+Attribute − Directive activates when a matching attribute is encountered.
+
+CSS − Directive activates when a matching css style is encountered.
+
+Comment − Directive activates when a matching comment is encountered.
+
+
+Understanding Custom Directive
+Define custom html tags.
+
+<student name = "Mahesh"></student><br/>
+<student name = "Piyush"></student>
+Define custom directive to handle above custom html tags.
+
+var mainApp = angular.module("mainApp", []);
+
+//Create a directive, first parameter is the html element to be attached.	  
+//We are attaching student html tag. 
+//This directive will be activated as soon as any student element is encountered in html
+
+mainApp.directive('student', function() {
+   //define the directive object
+   var directive = {};
+   
+   //restrict = E, signifies that directive is Element directive
+   directive.restrict = 'E';
+   
+   //template replaces the complete element with its text. 
+   directive.template = "Student: <b>{{student.name}}</b> , Roll No: <b>{{student.rollno}}</b>";
+   
+   //scope is used to distinguish each student element based on criteria.
+   directive.scope = {
+      student : "=name"
+   }
+   
+   //compile is called during application initialization. AngularJS calls it once when html page is loaded.
+	
+   directive.compile = function(element, attributes) {
+      element.css("border", "1px solid #cccccc");
+      
+      //linkFunction is linked with each element with scope to get the element specific data.
+      var linkFunction = function($scope, element, attributes) {
+         element.html("Student: <b>"+$scope.student.name +"</b> , Roll No: <b>"+$scope.student.rollno+"</b><br/>");
+         element.css("background-color", "#ff00ff");
+      }
+      return linkFunction;
+   }
+   return directive;
+});
+
+
+mainApp.controller('StudentController', function($scope) {
+   $scope.Mahesh = {};
+   $scope.Mahesh.name = "Mahesh Parashar";
+   $scope.Mahesh.rollno  = 1;
+   
+   $scope.Piyush = {};
+   $scope.Piyush.name = "Piyush Parashar";
+   $scope.Piyush.rollno  = 2;
+});
+
+<html>
+   
+   <head>
+      <title>Angular JS Custom Directives</title>
+   </head>
+   
+   <body>
+      <h2>AngularJS Sample Application</h2>
+      
+      <div ng-app = "mainApp" ng-controller = "StudentController">
+         <student name = "Mahesh"></student><br/>
+         <student name = "Piyush"></student>
+      </div>
+		
+      <script src = "http://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
+      
+      <script>
+         var mainApp = angular.module("mainApp", []);
+         
+         mainApp.directive('student', function() {
+            var directive = {};
+            directive.restrict = 'E';
+            directive.template = "Student: <b>{{student.name}}</b> , Roll No: <b>{{student.rollno}}</b>";
+            
+            directive.scope = {
+               student : "=name"
+            }
+            
+            directive.compile = function(element, attributes) {
+               element.css("border", "1px solid #cccccc");
+               
+               var linkFunction = function($scope, element, attributes) {
+                  element.html("Student: <b>"+$scope.student.name +"</b> , Roll No: <b>"+$scope.student.rollno+"</b><br/>");
+                  element.css("background-color", "#ff00ff");
+               }
+               return linkFunction;
+            }
+            
+            return directive;
+         });
+         
+         mainApp.controller('StudentController', function($scope) {
+            $scope.Mahesh = {};
+            $scope.Mahesh.name = "Mahesh Parashar";
+            $scope.Mahesh.rollno  = 1;
+
+            $scope.Piyush = {};
+            $scope.Piyush.name = "Piyush Parashar";
+            $scope.Piyush.rollno  = 2;
+         });
+			
+      </script>
+      
+   </body>
+</html>
+
+
+
+
+
+Testing
+
+
+describe('sorting the list of users', function() {
+  it('sorts in descending order by default', function() {
+    var users = ['jack', 'igor', 'jeff'];
+    var sorted = sortUsers(users);
+    expect(sorted).toEqual(['jeff', 'jack', 'igor']);
+  });
+});
+
+
+
+Why have you use those comps
+$routeProvider.when('/login/:comp'
+
+purpose of using $scope.homecomponents  = true;
+
+two login controller in home page
+
+What was hte problem with component rendering
+
+usecase of
+$scope.navHistory
+
+How field set in working
+
+wht is the use of {!cid}
+app.controller("componentCntrl{!cid}",function($scope,$http,$location){
+
+
+<div class="panelContainer" id="panelContainer{!cId}" ng-controller="componentCntrl{!cid}">
+
+=======================================================================================================================================================================
+
+
+Communicating in AngularJS with the Pub/Sub Design Pattern
+
+
+
+
+
+ A lot of the time the resulting answer is to use the $rootScope object to $broadcast a message to anyone who might be listening for it. But, that really isn’t the best way to do it. Broadcasting messages between components means that they need to know too much about how things are coded reducing their modularity and re-use.
+
+
+ In this article I show you how to use the Pub/Sub Design Pattern for inter-component communications in AngularJS.
+
+ By using the Publish/Subscribe design pattern we can decrease the coupling between components and encapsulate the details used for component communications. This will help increase your component’s modularity, testability and reuse.
+
+
+
+First We Need a Channel to Communicate Through
+
+
+ First let’s talk about the service that is used by the publishers and subscribers to communicate with each other. I’ve defined a service that will provide an interface that has a publish and subscribe method for each message we want to send.
+
+ In the code below I have defined two internal messages; _EDIT_DATA_, used to indicate that we need to edit the item passed in the message and _DATA_UPDATED_, used to indicate that our data has changed
+
+ Each message in turn, has two methods; one to publish the message to the subscribers and another one that the subscribers will user to register a callback method that will be called when the message is received.
+
+ The methods to publish the messages to the subscribers are editData, on line 9, and dataUpated, on line 19. They use the $rootScope.$broadcast method to publish the private notification message to the event handlers.
+
+ The event registration methods, use the $scope.$on methods to set up a watch that will get called whenever the message is broadcast and in turn call the event handler that was passed when the subscriber registered with the service. Since the subscriber also passes in its own scope, we can use it to perform the watch on the message and avoid the heavy code needed to manage a list of listeners. The registration methods are onEditData, on line 13 and onDataUpdated on line 23.
+
+ angular.module(['application.services'])
+    // define the request notification channel for the pub/sub service
+    .factory('requestNotificationChannel', ['$rootScope', function ($rootScope) {
+        // private notification messages
+        var _EDIT_DATA_ = '_EDIT_DATA_';
+        var _DATA_UPDATED_ = '_DATA_UPDATED_';
+
+        // publish edit data notification
+        var editData = function (item) {
+            $rootScope.$broadcast(_EDIT_DATA_, {item: item});
+        };
+        //subscribe to edit data notification
+        var onEditData = function($scope, handler) {
+            $scope.$on(_EDIT_DATA_, function(event, args) {
+               handler(args.item);
+            });
+        };
+        // publish data changed notification
+        var dataUpdated = function () {
+            $rootScope.$broadcast(_DATA_UPDATED_);
+        };
+        // subscribe to data changed notification
+        var onDataUpdated = function ($scope, handler) {
+            $scope.$on(_DATA_UPDATED_, function (event) {
+                handler();
+            });
+        };
+        // return the publicly accessible methods
+        return {
+            editData: editData,
+            onEditData: onEditData,
+            dataUpdated: dataUpdated,
+            onDataUpdated: onDataUpdated
+        };
+    }])
+
+
+
+
+
+
+
+ Publishing a Message
+
+
+
+
+
+
+To publish a message is pretty simple, first we need to include a dependency to the requestNotificationChannel in our controller, service or directive.
+
+When an event occurs in the component that needs to signal others that a change has occurred, you just need to call the appropriate notification method on the requestNotificationChannel. If you look at the saveHop, deleteHop and addHop methods of the dataService, you’ll see they all call the dataUpdated method on the requestNotificationChannel which will then signal the listeners who have registered with the onDataUpdated method.
+
+ // define the data service that manages the data
+    .factory('dataService', ['requestNotificationChannel', function (requestNotificationChannel) {
+        // private data
+        var hops = [
+            { "_id": { "$oid": "50ae677361d118e3646d7d6c"}, "Name": "Admiral", "Origin": "United Kingdom", "Alpha": 14.75, "Amount": 0.0, "Use": "Boil", "Time": 0.0, "Notes": "Bittering hops derived from Wye Challenger.  Good high-alpha bittering hops. Use for: Ales Aroma: Primarily for bittering Substitutions: Target, Northdown, Challenger", "Type": "Bittering", "Form": "Pellet", "Beta": 5.6, "HSI": 15.0, "Humulene": 0.0, "Caryophyllene": 0.0, "Cohumulone": 0.0, "Myrcene": 0.0, "Substitutes": ""} ,
+            { "_id": { "$oid": "50ae677361d118e3646d7d6d"}, "Name": "Ahtanum", "Origin": "U.S.", "Alpha": 6.0, "Amount": 0.0, "Use": "Boil", "Time": 0.0, "Notes": "Distinctive aromatic hops with moderate bittering power from Washington. Use for: Distinctive aroma Substitutes: N/A", "Type": "Aroma", "Form": "Pellet", "Beta": 5.25, "HSI": 30.0, "Humulene": 0.0, "Caryophyllene": 0.0, "Cohumulone": 0.0, "Myrcene": 0.0, "Substitutes": ""} ,
+            { "_id": { "$oid": "50ae677361d118e3646d7d6e"}, "Name": "Amarillo Gold", "Origin": "U.S.", "Alpha": 8.5, "Amount": 0.0, "Use": "Boil", "Time": 0.0, "Notes": "Unknown origin, but character similar to Cascade. Use for: IPAs, Ales Aroma: Citrus, Flowery Substitutions: Cascade, Centennial", "Type": "Aroma", "Form": "Pellet", "Beta": 6.0, "HSI": 25.0, "Humulene": 0.0, "Caryophyllene": 0.0, "Cohumulone": 0.0, "Myrcene": 0.0, "Substitutes": ""} ,
+            { "_id": { "$oid": "50ae677361d118e3646d7d6f"}, "Name": "Aquila", "Origin": "U.S.", "Alpha": 6.5, "Amount": 0.0, "Use": "Boil", "Time": 0.0, "Notes": "Aroma hops developed in 1988.  Limited use due to high cohumolone.Used for: Aroma hops Substitutes: ClusterNo longer commercially grown.", "Type": "Aroma", "Form": "Pellet", "Beta": 3.0, "HSI": 35.0, "Humulene": 0.0, "Caryophyllene": 0.0, "Cohumulone": 0.0, "Myrcene": 0.0, "Substitutes": ""} ,
+            { "_id": { "$oid": "50ae677361d118e3646d7d70"}, "Name": "Auscha (Saaz)", "Origin": "Czech Republic", "Alpha": 3.3, "Amount": 0.0, "Use": "Boil", "Time": 0.0, "Notes": " Use for: Pilsners and Bohemian style lagers Aroma: Delicate, mild, clean, somewhat floral -- Noble hops Substitute: Tettnanger, LublinExamples: Pulsner Urquell", "Type": "Aroma", "Form": "Pellet", "Beta": 3.5, "HSI": 42.0, "Humulene": 0.0, "Caryophyllene": 0.0, "Cohumulone": 0.0, "Myrcene": 0.0, "Substitutes": ""} ,
+        ];
+        // sends notification that data has been updated
+        var saveHop = function(hop) {
+            requestNotificationChannel.dataUpdated();
+        };
+        // removes the item from the array and sends a notification that data has been updated
+        var deleteHop = function(hop) {
+            for(var i = 0; i < hops.length; i++) {
+                if(hops[i]._id.$oid === hop._id.$oid) {
+                    hops.splice(i, 1);
+                    requestNotificationChannel.dataUpdated();
+                    return;
+                }
+            };
+        };
+        // internal function to generate a random number guid generation
+        var S4 = function() {
+            return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
+        };
+        // generates a guid for adding items to array
+        var guid = function () {
+          return (S4() + S4() + "-" + S4() + "-4" + S4().substr(0,3) + "-" + S4() + "-" + S4() + S4() + S4()).toLowerCase();
+        };
+        // function to add a hop to the array and sends a notification that data has been updated
+        var addHop = function(hop) {
+            hops.id.$oid = guid();
+            hops.push(hop);
+            requestNotificationChannel.dataUpdated();
+        };
+        // returns the array of hops
+        var getHops = function() {
+            return hops;
+        };
+        // returns a specific hop with the given id
+        var getHop = function(id) {
+            for(var i = 0; i < hops.length; i++) {
+                if(hops[i]._id.$oid === id) {
+                    return hops[i];
+                }
+            };
+        };
+        // return the publicly accessible methods
+        return {
+            getHops: getHops,
+            getHop: getHop,
+            saveHop: saveHop,
+            deleteHop: deleteHop,
+            addHop: addHop
+        }
+    }]);
+
+
+
+
+
+
+
+Receiving Notification Events
+
+
+
+
+
+
+Receiving event notifications from the requestNotificationChannel is just as simple, except we need to pass in a callBack handler that will do something with the notification once the message is sent.
+
+  //define the controller for view1
+    .controller('view1-controller', ['$scope', 'dataService', 'requestNotificationChannel', function($scope, dataService, requestNotificationChannel) {
+        $scope.hops = dataService.getHops();
+
+        var onDataUpdatedHandler = function() {
+            $scope.hops = dataService.getHops();
+        }
+
+        requestNotificationChannel.onDataUpdated($scope, onDataUpdatedHandler);
+
+        $scope.onEdit = function(hop) {
+            requestNotificationChannel.editData(hop);
+        }
+
+        $scope.onDelete = function(hop) {
+            dataService.deleteHop(hop);
+        }
+    }]);
+
+
+
+
+
+
+https://scotch.io/tutorials/angular-routing-using-ui-router
+
+repoApp.config(function($stateProvider, $urlRouterProvider) {
+  
+  $stateProvider
+    .state('state1', {
+      url: "/state1",
+      templateUrl: "partials/state1.html",
+      controller: 'YourCtrl'
+    })
+    
+    .state('state2', {
+      url: "/state2",
+      templateUrl: "partials/state2.html",
+      controller: 'YourOtherCtrl'
+    });
+    $urlRouterProvider.otherwise("/state1");
+});
+//etc.
+
+
+Customize Login, Logout, and Self-Registration Pages in Your Community
+
+
+https://developer.salesforce.com/docs/atlas.en-us.salesforce_communities_implementation.meta/salesforce_communities_implementation/networks_customize_login.htm
+
+
+Component Code:
+
+<apex:component >
+    <apex:attribute name="textValue" description="This is the value for the component" type="String" required="true"/>
+    <apex:attribute name="textColor" description="This is color for the border." type="String" required="true"/>
+    <apex:outputText value="{!textValue}" style="color:{!textColor};"/>
+</apex:component>
+
+This component is creating two attributes using <apex:attribute> tag. First attribute is deciding what text text should be displayed and second attribute is deciding color of text. We can use any number of attribute in component. Component can also have controller which helps in more customizable component.
+Now we need to use this component. We can use component in visualforce page using <c:componentName>.
+Visualforce Code:
+
+<apex:page tabStyle="Account"> 
+    <apex:pageBlock >
+        <apex:pageBlockSection title="myComponent Test" collapsible="false">
+            <c:myComponent textValue="This Text is blue" textColor="blue" />
+            <c:myComponent textValue="But this is red" textColor="red" />
+        </apex:pageBlockSection>
+    </apex:pageBlock>     
+</apex:page>
+
+https://appirio.com/tech-blog/create-custom-salesforce-communities-login-landing-page
+
+https://appirio.com/tech-blog/what-exactly-is-business-intelligence
+
+https://appirio.com/tech-blog/spreadsheets-vs-databases-find-the-right-fit-for-your-data
+
+
+data loading gif
+
+<img ng-if="dataLoading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA=="/>
+
+
+
+
+
+
+http://jasonwatmore.com/post/2015/03/10/AngularJS-User-Registration-and-Login-Example.aspx
+
+http://codepen.io/sylvaindev/pen/zvvrXv
+
+https://www.sitepoint.com/html-forms-angularjs/
+
+angular
+    .module('MyApp')
+    .controller('MyController', ['$scope', '$rootScope', function MyController($scope, $rootScope) {
+
+            var unbind = $rootScope.$on('someComponent.someCrazyEvent', function(){
+                console.log('foo');
+            });
+
+            $scope.$on('$destroy', unbind);
+        }
+    ]);
+
+
+
+http://www.algoworks.com/blog/develop-salesforce-visualforce-apps-using-angularjs/
+
+https://apschwartz.wordpress.com/articles/using-angularjs-with-visualforce-remoting/
+
+https://reidcarlberg.com/2014/07/30/angularjs-remote-actions-the-simplest-possible-visualforce-page/
+
+
+broadcast and emit
+http://www.dotnet-tricks.com/Tutorial/angularjs/HM0L291214-Understanding-$emit,-$broadcast-and-$on-in-AngularJS.html
+
+
+
+<apex:commandButton action="{!method1}" value="Show/Hide Section1" reRender="block"/>
+
+$scope.getContacts = function() {
+     Visualforce.remoting.Manager.invokeAction(
+     '{!$RemoteAction.SampleRemoteActionPageController.myContacts}', 
+     function(result, event) {
+       $scope.contacts = result;
+       $scope.$apply();
+     }); 
+     }
+
+     https://reidcarlberg.com/2014/07/30/angularjs-remote-actions-the-simplest-possible-visualforce-page/
+
+     http://blogforce9.blogspot.com/2014/04/using-angular-with-visualforce-remoting.html
+
+     Have you looked at the angular-getText libary ,
+
+Or you can $compile the HTML using angular again. You can simply do like this,
+
+var content=angular.element('#translatedContent');
+var scope=content.scope();
+$compile(content.contents())(scope))
+
+if(formType == 'Login') {
+                //do vf remoting
+              	Visualforce.remoting.Manager.invokeAction(
+                 '{!$RemoteAction.PrimeController.setLogin}', true,
+                 function(result, event) {
+                   
+                 }); 
+            }
+
+
+
+            <apex:pageBlock id="block" rendered="{!Login}">
+                <c:LoginComponent ></c:LoginComponent>
+         	</apex:pageBlock>
+
+
+
+
+      <apex:component controller="ngForceController" extensions="MyContacts,MyOpportunities">
+
+      $scope.submitFormType = function(formType) {
+            console.log('formtype ',formType);
+            if(formType == "Login") {
+                console.log('formtype ',formType);
+                //do vf remoting
+              	$scope.login = function() {
+                   Visualforce.remoting.Manager.invokeAction(
+                     '{!$RemoteAction.PrimeController.getLogin}',
+                     function(result, event) {
+                   		console.log('....SUCCESS...');
+                 	}); 
+                };
+                console.log('.......');
+            }
+
+
+
+
+            
+            
+            http://salesforce.stackexchange.com/questions/57577/hide-and-show-output-panel-in-visualforce-page
+
+
+            document.getElementById('{!$Component.search.thePanelWrapper1}').style.display = 'block';
+
+
+
+            <apex:actionFunction 
+    name="selectDateRange" 
+    rerender="theDataGrid" 
+    oncomplete="updateComponent();">
+        <apex:param name="dateParam" assignTo="{!mSelectedDateFilter}" value="" />
+</apex:actionFunction>
+
+<apex:actionFunction name="updateComponent" reRender="componentContainer"/>
+
+
+apex:actionFunction name="insertandclose" action="{!closePopup}" rerender="lastyearanswer"/>
+ 
+ and then the command button would be:
+ 
+ 
+1
+ 
+<apex:commandButton value="Insert" onclick="transferData('{!MyAnswer}','{!cellToUpdate}'); insertandclose()"/>
+
+<!-- Add the onclick event listener to a panel. When clicked, the panel triggers
+21
+    the methodOneInJavascript actionFunction with a param -->
+22
+    <apex:outputPanel onclick="methodOneInJavascript('Yes!')" styleClass="btn">
+23
+        Click Me
+24
+    </apex:outputPanel>
+25
+    <apex:form>
+26
+ 
+27
+    <apex:actionFunction action="{!methodOne}" name="methodOneInJavascript" rerender="showstate">
+28
+        <apex:param name="firstParam" assignTo="{!state}" value="" />
+29
+    </apex:actionFunction>
+
+
+<apex:outputPanel id="thePanelWrapper">  
+    <apex:outputPanel rendered="{!bRenderThePanel}"> 
+        <!-- Content --> 
+    </apex:outputPanel> 
+</apex:outputPanel> 
+
+<apex:commandButton action="{!DoSomeCalcs}" rerender="thePanelWrapper" value="FIRE!"/>  
+
+<apex:page controller="actionfun">
+2
+  <apex:form >
+3
+      <apex:actionFunction action="{!call}" name="hold"/>
+4
+  </apex:form>
+5
+  <script>
+6
+  hold();
+7
+  </script> 
+1
+</apex:page>
+
+
+
+
+</div>
+
+    <!-- ANIMALS =========================================================== -->
+    <div class="row text-center">
+      <div class="col-xs-6">
+        
+        <!-- change goCats to not true or true -->
+        <a href="#" ng-click="goCats = !goCats" class="btn btn-primary btn-lg">Toggle Cats</a>
+      </div>
+      
+      <div class="col-xs-6">
+        <img ng-src="http://i.imgur.com/vkW3Lhe.jpg" class="img-responsive img-thumbnail" ng-show="goCats">
+      </div>
+    </div>
+    
+</div>
+
+ng-click="goCats = !goCats"
+
+<div ng-show="renderLogin">
+            	
+            </div>
+
+
+
+                var n= document.getElementById('{!$Component.loginBlock}');
+                n.style.display = 'block';
+                //$rootScope.rerenderLogin();
+                 
+
+                 if(formType == "Login") {
+                console.log('formtype ',formType);
+              	$scope.login();
+                
+            }
+            
+            if(formType == "Cancel") {
+                console.log('formtype inside cancel ',formType);
+              	$scope.login();
+                
+            }
+
+
+
+            <apex:form >
+                <apex:actionFunction name="rerenderLogin" rerender="loginBlock" />
+            </apex:form>
+            
+
+            MyCustomSetting__c cs = MyCustomSetting__c.getInstance('Days');
+// you then have access to cs.active__c and cs.age__c
+
+
+Map<String_dataset_name, CustomSettingName__c> mcs = CustomSettingName__c.getAll();
+
+CustomSettingName__c mc = CustomSettingName__c.getValues(data_set_name);
+
+inside formula field
+{!$Setup.CustomSettingName__c.CustomFieldName__c}
+
+
+
+
+http://stackoverflow.com/questions/28806321/angularjs-can-i-change-scope-value-of-a-controller-from-another-controller
+$scope.$root.shouldShow = true; //or false
+
+http://fdietz.github.io/recipes-with-angular-js/controllers/responding-to-scope-changes.html
+$scope.$watch("name", function(newValue, oldValue) {
+    if ($scope.name.length > 0) {
+      $scope.greeting = "Greetings " + $scope.name;
+    }
+  });
+
+
+
+7
+down vote
+accepted
+Angular enforces the idea of one page web app. Browsers don't take any actions on change of anything after '#' value. 
+
+http://stackoverflow.com/questions/24873117/angularjs-change-url-with-location
+
+
+
+
+http://stackoverflow.com/questions/18337093/updating-url-in-angular-js-without-re-rendering-view
+App.config(function($routeProvider) {
+  $routeProvider.when('/dashboard/:dashboardId', {reloadOnSearch: false});
+});
+
+
+
+Adding access="global" to the <apex:attribute> tags in my component fixed it.  I already had global on the component itself.
+ 
+So these seem to be the things to keep in mind if you package a custom component and want to use in an installed org:
+ 
+1) set access="global" in the <apex:component ...> tag of the component.
+2) set access="global" in any <apex:attribute...> tag included in the component.
+3) reference the component with namespace:componentName, rather than c:componentName
+
+
+16:53:34:191 USER_DEBUG [2]|DEBUG|========== response > (SigningUrl:[email=aks133844@gmail.com, esignUrl=https://secure.na1.echosign.com/public/apiesign?pid=CBFCIBAA3AAABLblqZhAmnaBMbsoDdTk-EQS7eHv3H5z0Jf4VOGQ7kO_IWEr4wSQrTz7_PiZBwU3eu1eWn5M*, simpleEsignUrl=https://secure.na1.echosign.com/public/apiesign?pid=CBFCIBAA3AAABLblqZhAmnaBMbsoDdTk-EQS7eHv3H5z0Jf4VOGQ7kO_IWEr4wSQrTz7_PiZBwU3eu1eWn5M*])
+
+
+<apex:outputLink value="https://www.salesforce.com" target="_top" id="theLink" >www.salesforce.com</apex:outputLink>
+
+The HYPERLINK takes the following parameters: HYPERLINK(url, friendly_name [, target]). Available options for the third parameter are:
+_blank - Opens in a new window.
+_self - Opens in the same frame as it was clicked.
+_parent - Opens in the parent frameset.
+_top - Opens in the full body of the window.
+
+
+
+    <script type="text/javascript">
+        function popupwindow(sCallReportIdParam)
+        {
+            var newwindow = window.open('/apex/CallReportDataComponentPage?id='+sCallReportId, 'Call Report',scrollbars=yes,toolbar=no,status=no);
+            newwindow.focus();
+
+        }
+    </script>
+
+<apex:commandButton action="{!InvokeCallReport}" value="Generate Report" onclick="popupwindow(sCallReportId)"/>
+
+
+{
+  templateURL: '/apex/NameOfTemplateVFPage'
+} 
+
+http://salesforce.stackexchange.com/questions/28498/how-can-i-reference-angularjs-template-files-within-a-visualforce-page
+
+http://salesforce.stackexchange.com/questions/88443/using-angularui-ui-router-how-can-i-reference-inline-angularjs-templates-in-a-v
+
+http://salesforce.stackexchange.com/questions/78070/how-to-overcome-delay-in-data-load-when-using-angularjs-in-a-vf-page
+
+http://salesforce.stackexchange.com/questions/103892/angularjs-router-loads-contet-but-does-not-change-the-url-in-the-browser
+
+http://salesforce.stackexchange.com/questions/107192/angularjs-routing-in-vf-page-giving-error
+
+<apex:includeScript value="{!URLFOR($Resource.AngularJSLib, 'angular.min.js')}"/>
+<apex:includeScript value="{!URLFOR($Resource.AngularJSLib, 'angular-route.min.js')}"/>
+<base href="{!URLFOR($Resource.AngularApp, 'app/')}" /> 
+
+
+
+<div ng-app="workOrderApp"  class="container" width="100%">        
+        <ng-view></ng-view>
+    </div>
+
+
+    var app = angular.module('workOrderApp',['ngRoute']);
+
+app.config(['$routeProvider',function($routeProvider) 
+{       
+
+
+$routeProvider
+
+
+             // route for the home page by default
+            .when('/', {
+                templateUrl : 'views/createWorkOrder.html',
+                controller  : 'woFormController'
+            })             
+            // route for the work order grid page.
+            .when('/getWorkOrder', {
+                templateUrl : 'views/workOrderGrid.html',
+                controller  : 'searchWOController'
+            }).
+            otherwise({
+                redirectTo: '/'
+            });
+
+}]);
+
+
+scotchApp.config(function($routeProvider) {
+        $routeProvider
+
+            // route for the home page
+            .when('/', {
+                templateUrl : 'pages/home.html',
+                controller  : 'mainController'
+            })
+
+            // route for the about page
+            .when('/about', {
+                templateUrl : 'pages/about.html',
+                controller  : 'aboutController'
+            })
+
+            // route for the contact page
+            .when('/contact', {
+                templateUrl : 'pages/contact.html',
+                controller  : 'contactController'
+            });
+    });
+
+
+
+
+4
+down vote
+accepted
+Try this: $location.$$absUrl
+
+console.log('$location',$location.$$absUrl);
+
+btw /localhost is your base path, but I guess you meant entire URL.
+
+
+
+<base href="location" />
+ 
+
+<div>
+                <ng-view> </ng-view>
+            </div>
+
+            .when('/', {
+                templateUrl : '/apex/LoginSignUp',
+                controller  : 'MainController'
+            })
+
+
+    		.otherwise({
+                redirectTo  : '/LoginSignUpPage',
+                controller  :'MainController'
+           });
+
+
+
+
+           resolve: {
+      data: function (RoutingTableInfo) {
+        console.log('RoutingTableInfo = ',RoutingTableInfo.routeInfo());
+        return RoutingTableInfo.routeInfo();
+      }
+    }
+
+
+
+    app.config(function($routeProvider, $provide) {
+    $provide.service('dbService',function(){})
+    //set up your service inside the module's config.
+
+    $routeProvider
+        .when('/', {
+            templateUrl: "partials/editor.html",
+            controller: "AppCtrl",
+            resolve: {
+                data: 
+            }
+        })
+});
+
+pp.config(function($provide){
+
+    $provide.decorator("$exceptionHandler", function($delegate, $injector){
+        return function(exception, cause){
+            var $rootScope = $injector.get("$rootScope");
+            $rootScope.addError({message:"Exception", reason:exception});
+            $delegate(exception, cause);
+        };
+    });
+
+});
+
+http://stackoverflow.com/questions/15937267/inject-service-in-app-config
+
+
+var defer = $q.defer();
+
+if(event.status) {
+                          defer.resolve(response);
+                         } 
+                        else {
+                            $log.error(event.message);
+                            defer.reject(event.message);
+                        }       
+                        },{escape:true, buffer: true});
+                        return defer.promise;
+                        }
+
+
+
+ http://www.webdeveasy.com/javascript-promises-and-angularjs-q-service/
+
+
+app.provider('RoutingTableInfo', function () {
+    
+    this.$get = ['$q','$log', function($q,$log) {
+        
+        return {
+            routeInfo : function() {
+        		var defer = $q.defer();
+                Visualforce.remoting.Manager.invokeAction(
+                   'PrimeController.getRoutingInfo',
+                    function(result, event) {
+                     console.log('....SUCCESS...',JSON.parse(JSON.stringify(result)),'--',event);
+                        if(event.status) {
+                          defer.resolve(response);
+                         } 
+                        else {
+                            $log.error(event.message);
+                            defer.reject(event.message);
+                        }      
+                }); 
+            	return defer.promise;
+            }
+        };
+     
+        return new RoutingTableInfo($q, routeInfo);
+        
+    }];                          
+                                
+});
+
+http://stackoverflow.com/questions/15286588/how-to-inject-dependency-into-module-configconfigfn-in-angular
+
+http://stackoverflow.com/questions/25644039/angular-inject-http-into-config-or-provider-into-run
+
+var routeSegmentProvider = null;
+
+myApp.config(["$routeSegmentProvider", function ($routeSegmentProvider) {
+    routeSegmentProvider = $routeSegmentProvider;
+}]);
+
+myApp.run(["$http", function($http) {
+  // access $http and routeSegmentProvider here
+}]);
+
+
+https://gist.github.com/Mithrandir0x/3639232
+
+https://thinkster.io/egghead/providers
+
+app.provider('RoutingTableInfo', function () {
+    console.log('ret');
+    return {
+        
+        $get :['$q','$log', function($q,$log) {
+            var defer = $q.defer();
+             console.log('defer',defer);
+                (function() {
+                    
+                    Visualforce.remoting.Manager.invokeAction(
+                       'PrimeController.getRoutingInfo',
+                        function(result, event) {
+                         console.log('....SUCCESS...',JSON.parse(JSON.stringify(result)),'--',event);
+                            if(event.status) {
+                              defer.resolve(response);
+                             } 
+                            else {
+                                $log.error(event.message);
+                                defer.reject(event.message);
+                            }      
+                    }); 
+                    return defer.promise;
+                })();
+            
+            }]
+    };
+                                  
+});
+
+http://stackoverflow.com/questions/16759200/using-q-defer-within-angulars-provider
+
+working
+app.provider('RoutingTableInfo', function () {
+    console.log('ret');
+    var injector = angular.injector(['ng']),
+        http = injector.get('$http'),
+        q = injector.get('$q');
+        console.log('q outside',q);
+    
+    return{
+        $get : function() {
+           console.log('q indide',q);
+            var defer = q.defer();
+            return{
+                route :  function() {
+                    console.log();
+                    Visualforce.remoting.Manager.invokeAction(
+                       'PrimeController.getRoutingInfo',
+                        function(result, event) {
+                         console.log('....SUCCESS...',JSON.parse(JSON.stringify(result)),'--',event);
+                            if(event.status) {
+                              defer.resolve(result);
+                             } 
+                            else {
+                                $log.error(event.message);
+                                defer.reject(event.message);
+                            }   
+                               
+                    }); 
+                    console.log('return defer.promise; ', defer.promise);
+                   return defer.promise;
+                }
+};
+            
+            }
+    };
+    
+                                  
+});
+
+app.config(function($routeProvider,RoutingTableInfoProvider) {
+    var jsonStr = RoutingTableInfoProvider.$get().route();
+                                  
+});
+
+
+http://stackoverflow.com/questions/20461714/query-string-parameter-in-ui-router-urls
+
+.state('quotes.new', {
+  url: '/new?customer',
+  templateUrl: 'views/quote-form.html',
+  controller: 'QuoteFormCtrl'
+});
+Multiple parameters can be added by separating them with an &:
+
+.state('mystate', {
+  url: '/myState?paramOne&paramTwo
+  //...
+});
+
+var eventlist = JSON.stringify(eventresult.d);//Jsonresult
+
+var eventstring = new String();
+
+eventstring = eventlist.toString().replace(/"/g, "");
+
+eval(eventstring );
+
+//stringToReplace = stringToReplace.substring(1, stringToReplace.length - 1);
+        //stringToReplace = stringToReplace.substring(1, stringToReplace.length);
+        //stringToReplace = stringToReplace.replace(/"/g, "");  
+        //console.log('quotes removed ',stringToReplace);
+
+
+
+        var eventstring = stringToReplace.toString().replace(/\"/g, "");
+        angular.forEach(values, function(value, key) {}
+        
+			$routeProviderReference = $routeProvider;
+             
+            //eval('stringToReplace');
+            
+
+
+
+working code saved
+
+app.config(function($routeProvider,RoutingTableInfoProvider) {
+    var jsonStr = RoutingTableInfoProvider.$get().route();
+    var routingMap;
+    jsonStr.then(function(result) {
+      console.log('Success:......... ' + JSON.parse(result.replace(/&/g,'').replace(/quot;/g,'"')));
+        console.log(JSON.parse(result.replace(/&/g,'').replace(/quot;/g,'"')));
+        routingMap = JSON.parse(result.replace(/&/g,'').replace(/quot;/g,'"'));
+        var stringToReplace = '';
+        for(var key in routingMap) {
+           stringToReplace = stringToReplace+'.when(\''+key +'\',{templateUrl:\'' +routingMap[key] +'\'})';
+        }
+        stringToReplace = stringToReplace+';';
+        console.log('stringToReplace ',stringToReplace);
+       
+        var eventstring = stringToReplace.toString().replace(/\"/g, "");
+        
+        $routeProviderReference = $routeProvider;
+        
+        /*
+			$routeProvider
+            //stringToReplace
+            
+            // route for the about page
+            .when('/login', {
+                templateUrl : 'apex/LoginPage'
+                
+            })
+
+            // route for the contact page
+            .when('/register', {
+                templateUrl : 'apex/RegisterPage'
+                
+            })
+        
+        
+            .when('/index', {
+                    templateUrl : 'apex/LoginSignUp1'
+                    
+            })
+        
+        .when('/mixedcomponent', {
+                    templateUrl : 'apex/MixedComponentPage1'
+                    
+           })
+        
+        .when('/esignsignature', {
+                    templateUrl : 'apex/ESignSignaturePage'
+                    
+          });
+          
+        */
+        
+        
+    }, function(reason) {
+      console.log('Failed: ' + reason);
+    });
+  
+    });
+
+
+
+
+
+
+
+provider
+
+app.provider('RoutingTableInfo', function () {
+    console.log('ret');
+    var injector = angular.injector(['ng']),
+        http = injector.get('$http'),
+        q = injector.get('$q');
+        //console.log('q outside',q);
+    
+    return{
+        $get : function() {
+           //console.log('q indide',q);
+            var defer = q.defer();
+            return{
+                route :  function() {
+                    //console.log();
+                    Visualforce.remoting.Manager.invokeAction(
+                       'PrimeController.getRoutingInfo',
+                        function(result, event) {
+                         console.log('....SUCCESS...',JSON.parse(JSON.stringify(result)),'--',event);
+                            if(event.status) {
+                              defer.resolve(result);
+                             } 
+                            else {
+                                $log.error(event.message);
+                                defer.reject(event.message);
+                            }   
+                               
+                    }); 
+                    //console.log('return defer.promise; ', defer.promise);
+                   return defer.promise;
+                }
+};
+            
+            }
+    };
+    
+                                  
+});
+
+
+<div ng-if="someCondition">
+    ...
+</div>
+<div ng-else-if="someOtherCondition">
+    ...
+</div>
+<div ng-else>
+    ...
+</div>
+
+<div ng-show="{{isNext}}">
+        	<a ng-href="{{href}}" class="btn btn-default ">Next</a>
+    	</div>
+        <div ng-show="{{isSubmit}}">
+        	<a ng-href="{{href}}" class="btn btn-default ">Next</a>
+    	</div>
+
+
+    	<div ng-if="info.host ==='otherservername'">
+
+
+    	 <div ng-if="{{isNext}}" ng-controller = "NextComponentController">
+            <p>
+                iffff<br/>
+                <br/>
+                <br/>
+            </p>
+            <a ng-href="{{hrefSubmit}}" class="btn btn-default ">Submit</a>
+        </div>
+        <div ng-else-if="{{isSubmit}}" ng-controller = "NextComponentController">
+            <p>
+                else
+            </p>
+           <a ng-href="{{hrefNext}}" class="btn btn-default ">Next</a>
+        </div>
+
+
+
+        console.log('$scope.hrefNext =',$scope.hrefNext);
+            console.log('$scope.hrefSubmit =',$scope.hrefSubmit);
+            console.log('$scope.isNext =',$scope.isNext);
+            console.log('$scope.isSubmit =',$scope.isSubmit);
+
+
+            <button type="submit" class="btn btn-success">
+    <i class="icon-circle-arrow-right icon-large"></i> Next
+</button>
+
+
+
+<div ng-repeat="(key, value) in field ">
+                <label class="inputLabel" id="inputLabel{!cId}">
+                    {{key}} = {{value}} 
+            	</label>
+                <input type='{{key}}' class="inputFields" id="inputFields{!cId}" data-ng-model="fieldModel[field.fieldPath]" ng-required="true"/>
+            </div>
+
+
+
+<div ng-repeat="field in parseFields track by $index">
+                <label class="inputLabel" id="inputLabel{!cId}">
+                    field.type
+            	</label>
+                <input type='field.type' class="inputFields" id="inputFields{!cId}" data-ng-model='field.fieldPath' ng-required='field.required'/>
+            
+        </div>
+
+
+
+        <input type="{{field.type}}" class="inputFields" id="inputFields{!cId}" data-ng-model="field.fieldPath" ng-required="{{field.required}}" />
+
+        <div ng-repeat="item in aMap.keys">{{aMap[item]}}</div>
+
+        <div ng-repeat="key1 in ctrl.mapKeys(ctrl.map)">key1: {{key1}}
+
+
+        {{nameMap[key]}}
+
+
+        <div ng-repeat="(key, prop) in toDoListCntrlAs.toDoListItems"> 
+      <span>{{$index+1}} : {{key}}   : Title = {{ prop.title}} : Status = {{ prop.completed}} </span>
+    </div>     
+
+
+
+
+
+http://stackoverflow.com/questions/21215049/disable-text-entry-in-input-type-number
+
+
+7
+down vote
+accepted
+You can use JavaScript (e.g. with jQuery) to allow only specific characters:
+
+// Catch all events related to changes
+$('#textbox').on('change keyup', function() {
+  // Remove invalid characters
+  var sanitized = $(this).val().replace(/[^0-9]/g, '');
+  // Update value
+  $(this).val(sanitized);
+});
+Here is a fiddle.
+
+Same thing with support for floats:
+
+// Catch all events related to changes
+$('#textbox').on('change keyup', function() {
+  // Remove invalid characters
+  var sanitized = $(this).val().replace(/[^0-9.]/g, '');
+  // Remove the first point if there is more than one
+  sanitized = sanitized.replace(/\.(?=.*\.)/, '');
+  // Update value
+  $(this).val(sanitized);
+});
+
+
+input[type=text]
+
+ng-change="fieldValidation()"
+
+
+elm.bind("keydown keypress", function(event) {
+    if (event.which === 13) {
+        scope.$apply(function() {
+            ngModelCtrl.$setViewValue(elm.val());
+        });
+    }
+});
+
+
+For anyone struggling with IE8 (it doesn't like the unbind('input'), I found a way around it.
+
+Inject $sniffer into your directive and use:
+
+if($sniffer.hasEvent('input')){
+    elm.unbind('input');
+}
+
+http://stackoverflow.com/questions/11868393/angularjs-inputtext-ngchange-fires-while-the-value-is-changing
+
+http://stackoverflow.com/questions/19456397/angularjs-ngchange-trigger-onblur
+
+
+
+app.factory('FieldSetFactory', ['$q', '$log', function($q, $log) {
+    
+    var fieldSet = {};
+    var defer = $q.defer();
+    
+    fieldSet.getFields = function(scope,fieldSetName, objectName) { 
+        this.scope = scope;
+        var self = this;
+       // console.log('fieldSetName objectName ',fieldSetName,objectName);
+        FieldSetController.getFieldSetInfo(fieldSetName,objectName, function(response, event) {
+            if(event.status) {
+                setTimeout(function(){
+                  self.scope.$apply(function(){
+                    //console.log('response ==',response);
+                    console.log('defer.promise ',defer.promise);
+                    defer.resolve(response);
+                    //return defer.promise;
+                  });
+                }, 5000)
+                //console.log('response ==',response);
+                //defer.resolve(response);
+                //console.log('defer.promise ',defer.promise);
+                //return response;
+            } 
+            else {
+                $log.error(event.message);
+                defer.reject(event.message);
+            }       
+        },{escape:true, buffer: false});
+        
+        
+        return defer.promise;
+    }
+    
+    return fieldSet;
+    
+    
+
+                               
+}]);
+
+
+app.factory('FieldSetFactory', ['$q', '$log', function($q, $log) {
+    
+    var fieldSet = {};
+    var defer = $q.defer();
+    
+    fieldSet.getFields = function(scope,fieldSetName, objectName) { 
+        this.scope = scope;
+        var self = this;
+        
+        FieldSetController.getFieldSetInfo(fieldSetName,objectName,function(response, event) {
+            if(event.status) {
+                console.log('response = ',response);
+                defer.resolve(response);
+                self.scope.$apply();
+                return defer.promise;
+            } 
+            else {
+                $log.error(event.message);
+                defer.reject(event.message);
+            } 
+            
+            return defer.promise;
+            
+        }); 
+        
+        return defer.promise;
+    }
+    
+    return fieldSet;
+                                
+}]);
+
+var promise1 = $http({method: 'GET', url: 'a/pi-one-url', cache: 'true'});
+var promise2 = $http({method: 'GET', url: '/api-two-url', cache: 'true'});
+
+$q.all([promise1, promise2]).then(function(data){
+	console.log(data[0], data[1]);
+});
+
+
+app.factory('FieldSetFactory', ['$q', '$log', function($q, $log) {
+    
+    var fieldSet = {};
+     
+    fieldSet.getFields = function(scope,fieldSetName, objectName) { 
+        var defer = $q.defer();
+        this.scope = scope;
+        var self = this;
+        
+        FieldSetController.getFieldSetInfo(fieldSetName,objectName,function(response, event) {
+            if(event.status) {
+                console.log('response = ',response);
+                var someObj = {};
+                someObj = response;
+                defer.resolve(someObj);
+                //self.scope.$apply();
+                //return defer.promise;
+            } 
+            else {
+                $log.error(event.message);
+                defer.reject(event.message);
+            } 
+              
+        }); 
+        
+        return defer.promise;
+    }
+    
+    return fieldSet;
+                                
+}]);
+
+
+$scope.fieldBinding = function(){
+             angular.forEach($scope.fieldsetList,function(fields,i) {
+                 $scope.fieldModel = {};
+                 //console.log('fields..',fields);
+                 $scope.fieldModel.objectName =  $scope.objectAPIName;
+                 angular.forEach(fields,function(value,key) {
+                     if(key == 'type') {
+                     	if(value == "currency") {
+                         	value = "number";
+                         } else if(value == "string") {
+                            value = "text";
+                         } 
+                     }
+                     
+                     $scope.fieldModel[key] = value;    
+                 })
+                 //console.log('$scope.fieldModel..',$scope.fieldModel);
+                 $scope.parseFields.push($scope.fieldModel);  
+             });
+             //console.log('parseFields..',$scope.parseFields);
+         }
+
+
+
+
+
+<!--
+    <div class="col-md-6 col-md-offset-3">
+    <h2>Login</h2>
+    <form name="form" ng-submit="vm.login()" role="form">
+        <div class="form-group" ng-class="{ 'has-error': form.username.$dirty && form.username.$error.required }">
+            <label for="username">Username</label>
+            <input type="text" name="username" id="username" class="form-control" ng-model="username" required="required" />
+            <span ng-show="form.username.$dirty && form.username.$error.required" class="help-block">Username is required</span>
+        </div>
+        <div class="form-group" ng-class="{ 'has-error': form.password.$dirty && form.password.$error.required }">
+            <label for="password">Password</label>
+            <input type="password" name="password" id="password" class="form-control" ng-model="password" required="required" />
+            <span ng-show="form.password.$dirty && form.password.$error.required" class="help-block">Password is required</span>
+        </div>
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Login</button>
+            <img ng-if="vm.dataLoading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+            <input type="button" ng-click="submitFormType('Register')" value="Register" ng-controller="LoginRegisterComponent"/>
+            <input type="button" ng-click="submitFormType('Cancel')" value="Cancel" ng-controller="LoginRegisterComponent"/>
+        </div>
+    </form>
+	</div>
+	-->
+
+	 var vm = this;
+        vm.login = login;
+ 
+        (function initController() {
+            // reset login status
+            AuthenticationService.ClearCredentials();
+        })();
+        
+        function login() {
+            AuthenticationService.Login(vm.username, vm.password, function (response) {
+                if (response.success) {
+                    AuthenticationService.SetCredentials(vm.username, vm.password);
+                    $location.path('/home');
+                } else {
+                    vm.dataLoading = false;
+                }
+            });
+        };
+
+
+
+
+
+
+
+        Set the forceSSL attribute to true for these forms. 
+
+
+        https://developer.salesforce.com/docs/atlas.en-us.salesforce_communities_implementation.meta/salesforce_communities_implementation/communities_custom_login_page.htm
+
+        https://clportal-developer-edition.na30.force.com/signUp
+
+        https://clportal-developer-edition.na30.force.com
+
+
+
+        https://help.salesforce.com/HTViewHelpDoc?id=networks_publish.htm&language=en_US
+
+        https://developer.salesforce.com/forums/?id=906F000000091RxIAI
+
+        https://developer.salesforce.com/blogs/developer-relations/2014/06/how-to-provision-salesforce-communities-users.html
+
+        Contact con = new Contact(
+        FirstName='Joe',
+        LastName='Smith',
+        Phone='415.555.1212',
+        AccountId='0013600000ORsC8');
+    insert con;
+
+
+
+
+8
+down vote
+accepted
+I do alot of salesforce angular work.
+
+I take it you're using a Router of some sort, be it the built in $router or Ui-Router.
+
+Regardless of which one you use, when you're given a choice to include a template via url do this:
+
+{
+  templateURL: '/apex/NameOfTemplateVFPage'
+} 
+In your template partial, make sure to turn the sidebar, headers, and standard css OFF. And set the doctype to html-5.0
+
+Lastly, if you're utilizing ngForce (shameless plug) when the lawyers get done pissing at each other, there will be an update that enables you to strip off the excess JS that Salesforce inserts into all vf pages when you're loading partials.
+
+<a href="#/esignsignature" class="btn btn-default" ng-controller="LoginRegisterComponent">ESign Signature</a>
+
+
+
+ame problrm may be if you will try to nest ngApp into anothe ngApp.
+
+The documentation says:
+
+AngularJS applications cannot be nested within each other.
+
+
+
+
+
+<apex:inputField value="{!$CurrentPage.parameters.Paramtervalue}"/>
+
+https://xxx.visual.force.com/apex/NewPage?TestValue=value1&retURL=a0HS000000450UD
+
+Use URL.getSalesforceBaseUrl().getHost()
+
+Try: URL.getSalesforceBaseUrl().toExternalForm();
+
+String fullRecordURL = URL.getSalesforceBaseUrl().toExternalForm() + '/' + acct.Id;
+
+
+
+
+
+
+ngBindHtml will pass your HTML through $sce.getTrustedHtml before displaying it. I suspect this is what would be removing your iframe.
+
+According to the docs you can use $sce.trustAsHtml to avoid this check so long as you fully trust any HTML coming from this source - an iframe from an untrusted source could likely do a number on nasty things to visitors to your page.
+
+$http({method: 'GET', url: url}).
+    success(function(data, status) {
+        $scope.player = $sce.trustAsHtml(data.html);
+    }.......
+Be careful! :)
+
+
+function AppCtrl($scope, $sce) {
+    // ...
+    $scope.setProject = function (id) {
+      $scope.currentProject = $scope.projects[id];
+      $scope.currentProjectUrl = $sce.trustAsResourceUrl($scope.currentProject.url);
+    }
+}
+In the Template:
+
+<iframe ng-src="{{currentProjectUrl}}"> </iframe>
+
+
+
+<iframe ng-src="{{url}}">  <p>Your browser does not support iframes.</p> </iframe>
+
+
+
+
+$location.protocol() + '://'+ $location.host() + '/apex/createFieldSetWithRegister'++ '?value='+$scope.ObjectApiFieldsetMap;
+
+
+
+<!--<iframe ng-src="{{openFieldSetUrlOne}}" width="90%" height="600px%"> </iframe> -->
+        <!-- <apex:iframe src="{{openFieldSetUrlOne}}" scrolling="true" id="quoteIframe"/> -->
+
+
+
+
+
+
+portal registration js
+
+            $scope.tokenWithComma = $scope.fieldSetmap.split(","); 
+            console.log($scope.tokenWithComma);
+            
+            $scope.tokenMap = [];
+            for (var i = 0; i < $scope.tokenWithComma.length; i++) {
+              var parts = $scope.tokenWithComma[i].split('=>');
+              $scope.tokenMap[parts[0]] = parts[1].substr(0, parts[1].length);
+            }
+            console.log('$scope.tokenMap  ',$scope.tokenMap);
+            
+            $scope.order = $scope.order.split(",");
+            $scope.objectApiName = $scope.objectApiName.split(",");
+            $scope.objectApiFieldSetOrderList = [];
+            console.log($scope.objectApiName);
+            console.log($scope.order);
+            
+            for (var i = 0; i < $scope.order.length; i++) { 
+                console.log('$scope.order[i] ',$scope.order[i]);
+                console.log('$scope.objectApiName[$scope.order[i-1]] ',$scope.objectApiName[$scope.order[i]-1]);
+                console.log('$scope.tokenMap ',$scope.objectApiName[$scope.order[i]-1]);
+                var objectToSearch = $scope.objectApiName[$scope.order[i]-1];
+                console.log(objectToSearch,'-->',$scope.tokenMap[$scope.objectApiName[$scope.order[i]-1]]);
+            	$scope.objectApiFieldSetOrderList.push($scope.tokenMap[$scope.objectApiName[$scope.order[i]-1]]);
+            }
+            console.log($scope.objectApiFieldSetOrderList);
+            
+            $scope.ObjectApiFieldsetMap = {};
+            for (var i = 0; i < $scope.order.length; i++) { 
+            	$scope.ObjectApiFieldsetMap[$scope.objectApiName[$scope.order[i]-1]] = $scope.tokenMap[$scope.objectApiName[$scope.order[i]-1]];
+            }
+                                                                                                       
+            console.log('$scope.ObjectApiFieldsetMap ',$scope.ObjectApiFieldsetMap);      
+            
+            $scope.currentUrl = $location.absUrl();
+            console.log('$scope.currentUrl ',$scope.currentUrl);
+            console.log($scope.currentUrl);
+            $scope.openFieldSetUrl = $scope.currentUrl + '#/createFieldSetWithRegister' + '?value='+$scope.ObjectApiFieldsetMap;
+            console.log('$scope.openFieldSetUrl ',$scope.openFieldSetUrl);   
+            $scope.openFieldSetUrlOne = $location.protocol() + '://'+ $location.host() + '/apex/createFieldSetWithRegister'+ '?value='+$scope.ObjectApiFieldsetMap;
+            console.log($scope.openFieldSetUrlOne);
+
+
+
+
+
+I have created an example that will be referenced throughout the post. The following variables are declared within the scope as follows.
+
+$scope.data = [
+  {
+    'id' : 0,
+    'name' : 'Tim'
+  },
+  {
+    'id' : 1,
+    'name' : 'John'
+  }
+];
+$scope.ratings = [ '5 stars', '2 stars' ];
+When you are setting your model to 'catRatings' + {{ cats.id }} that means somewhere you are declaring a $scope.catRatings1, $scope.catRatings2, etc. Instead you should bind directly the the category object as follows.
+
+<label ng-repeat="person in data">
+  <input type="text" ng-model="person.name">
+  ...
+</label>
+or bind to an array with a corresponding index
+
+<label ng-repeat="person in data">
+  ...
+  <input type="text" ng-model="ratings[$index]">
+</label> 
+or bind to an array using the id...
+
+<label ng-repeat="person in data">
+  ...
+  <input type="text" ng-model="ratings[person.id]">
+</label>
+
+http://stackoverflow.com/questions/25245842/how-can-i-concatinate-a-ng-model-value-with-a-value-from-a-ng-repeat
+
+http://stackoverflow.com/questions/28679048/angularjs-concat-ng-model
+
+
+ng-init="prop.fieldPath=''"
+
+ng-model="fieldPathValue[prop.fieldPath]"
+
+
+http://www.oyecode.com/2012/03/dynamic-apex-creating-dynamic-objects.html
+
+https://developer.salesforce.com/forums/?id=906F00000008xw9IAA
+
+http://forceguru.blogspot.com/2011/08/inserting-sobject-dynamically-in.html
+
+https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_dynamic_dml.htm
+
+
+
+if(isOrderSizeValid) {
+/*for(Integer i = 0; i < order.size(); ++i) {  
+                Integer x = Integer.valueof(order[i].trim())-1;
+                System.debug('x '+x);
+                 
+                String objectToSearch = objectApiName[x];
+                System.debug('objectToSearch '+objectToSearch);
+                System.debug('fieldSetTokenMap.get() '+fieldSetTokenMap.get(objectToSearch));
+                objectApiFieldSetOrderList.add(fieldSetTokenMap.get(objectToSearch));
+                System.debug('objectApiFieldSetOrderList '+objectApiFieldSetOrderList);
+        	} */
+
+
+
+You need to add a null check to your guard condition.
+
+ if (accountRecordTypes == null || accountRecordTypes.isEmpty()) {
+The corresponding member that automagically exists behind the property won't be initialised until you call accountRecordTypes = new Map<String, String>();. So the original call to .isEmpty() would have been on null.
+
+As Jesse Altman commented, the null check alone is probably preferable here. If there are no RecordType records that match the SOQL query you don't want to be running the query code again every time the property is called.
+
+
+You can get the value by as html-ng-model="lastname":
+
+<apex:inputField id="lookup" value="{!surveyObj.User__c}" style="width: 300px;" html-placeholder="select The User from the Lookup" html-ng-model="lastname">
+Or 
+As an alternate solution you can bind the apex input field by jquery on change. So, by change event just copy the value to hidden html input field which has ng-model=lastname and use it in $scope
+
+
+
+$scope.fieldValidation = function() {
+             /*
+            var inp = document.getElementsByTagName('input');
+            for(var i in inp){
+                console.log(inp[i].type);
+                if(inp[i].type == "currency"){
+                    if(inp[i].value != ""){
+                        console.log('run test for data');
+                        
+                    }
+                }
+            }
+            */
+
+         }
+
+
+
+system.debug('API Name ====>' + fieldSetMemberObj.getFieldPath()); 
+            system.debug('Label ====>' + fieldSetMemberObj.getLabel());
+            system.debug('Required ====>' + fieldSetMemberObj.getRequired());
+            system.debug('DbRequired ====>' + fieldSetMemberObj.getDbRequired());
+            system.debug('Type ====>' + fieldSetMemberObj.getType());  
+
+
+<!--<div ng-repeat="(key,prop) in parseFields track by $index" id="formDivContainer{!cid}">
+            <label for="{{prop.label}}">{{prop.label}}</label>
+             
+            <div class="form-group" id="inputDivContainer{!cid}" >
+                <input type="{!ObjectFieldsetMap}" id="inputFields{!cid}" ng-blur='fieldValidation()' ng-model-options="{updateOn: 'blur'}"  
+                       class="form-control" name="{{prop.fieldPath}}" ng-model="fieldPathValue[prop.fieldPath]" ng-required="{{prop.required}}"/>
+            </div>   
+        </div> --> 
+
+
+
+
+        /*
+        FieldSetFactory.getFields($scope,$scope.fieldSetName,$scope.objectAPIName).then(function(response){
+            $scope.fieldsetList = JSON.parse(response.replace(/&/g,'').replace(/quot;/g,'"'));
+            $scope.fieldBinding();
+        });
+        
+        $scope.fieldModel = {};
+         $scope.fieldBinding = function(){
+             angular.forEach($scope.fieldsetList,function(fields,i) {
+                 $scope.fieldModel = {};
+                 $scope.fieldModel.objectName =  $scope.objectAPIName;
+                 angular.forEach(fields,function(value,key) {
+                     console.log('key..',key);
+                     $scope.fieldModel[key] = value;    
+                 })
+                 $scope.parseFields.push($scope.fieldModel);  
+             });
+             console.log('parseFields..',$scope.parseFields);
+         }
+         
+         $scope.objectFieldPathNameToFieldPathValueMap = {};
+         var onSubmitHandler = function() {
+             var defer = $q.defer();
+             console.log('called onsubmit handler of fieldSet component -- ',$scope.controllerName);
+             angular.forEach($scope.parseFields, function(value, key) {
+                 console.log('fieldpath = ',value.fieldPath,$scope.fieldPathValue[value.fieldPath]);
+                 $scope.objectFieldPathNameToFieldPathValueMap[value.fieldPath] = $scope.fieldPathValue[value.fieldPath];
+             });
+             
+             console.log('objectApiNameIdMapList inside fieldset component  ',$objectApiNameIdMapList);
+             //call Apex controller to save fieldpath 
+             FieldSetController.insertObject($scope.objectAPIName, $scope.objectFieldPathNameToFieldPathValueMap, function(response, event) {
+                if(event.status) {
+                    console.log('response ID after in vf = ',response);
+                    var objectInsertId;
+                    objectInsertId = response;
+                    mapObjectNameApiToIdService.mapObjectApiNameToId($scope.objectAPIName,objectInsertId);
+                    defer.resolve(response);
+                } 
+                else {
+                    $log.error(event.message);
+                	defer.reject(event.message);
+                    
+                }   
+            }); 
+               
+          };
+            
+         requestNotificationChannel.onSubmitData($scope, onSubmitHandler);
+        
+        $scope.onSubmit = function() {
+            requestNotificationChannel.submitData();
+        }
+        */
+
+
+
+
+  <c:CLPortalRegistration fieldSetMap="clcommon__Collateral__c=>Collateral_FieldSet_One" 
+                                                    order="1" userType="Partner" accountFieldSet="mandatoryFieldSetAccount"
+                                                    objectApiName="clcommon__Collateral__c" title="Apply">
+
+
+
+
+
+
+
+Creating portal user
+
+https://developer.salesforce.com/page/Authenticating_Users_on_Force.com_Sites?language=en
+https://developer.salesforce.com/forums/?id=906F00000008zxtIAA
+http://sforcemaximizer.com/how-to-resolve-issues-with-site-createportaluser-returning-null/
+
+
+<div>
+                <div>
+                    <label for="username">Username</label>
+                    <input type="text" name="username" id="username" class="form-control" ng-model="username" required="required" />
+                </div>
+                
+                <div style="margin-top:16px;">
+                    <label for="password">Password</label>
+                    <input type="password" name="password" id="password" class="form-control" ng-model="password" required="required" />
+                </div>
+                
+                <div style="margin-top:20px;">
+                    <label for="confirmPassword">Confirm Password</label>
+                    <input type="password" name="confirmPassword" id="confirmpassword" class="form-control" ng-model="confirmpassword" required="required" />
+                </div>
+                
+                <div style="margin-top:20px;">
+                    <input type="submit" name="register" value="Register" id="registerAccount"  required="required" ng-click="portalRegistration()" style="width:500px;height:40px;color:green;" />
+                </div>
+            </div>
+
+
+
+
+
+action="{!register}"
+
+
+angular.element(domElement).scope() to get the current scope for the element
+
+angular.element(domElement).injector() to get the current app injector
+
+angular.element(domElement).controller() to get a hold of the ng-controller instance.
+
+
+
+angular.module('MyModule', [])
+    .controller('MyController', function ($scope) {
+    $scope.myfunction = function (data) {
+        alert("---" + data);
+    };
+});
+
+window.onload = function () {
+    angular.element(document.getElementById('YourElementId')).scope().myfunction('test');
+}
+
+
+
+
+274
+down vote
+accepted
+Interop from outside of angular to angular is same as debugging angular application or integrating with third party library.
+
+For any DOM element you can do this:
+
+angular.element(domElement).scope() to get the current scope for the element
+angular.element(domElement).injector() to get the current app injector
+angular.element(domElement).controller() to get a hold of the ng-controller instance.
+From the injector you can get a hold of any service in angular application. Similarly from the scope you can invoke any methods which have been published to it.
+
+Keep in mind that any changes to the angular model or any method invocations on the scope need to be wrapped in $apply() like this:
+
+$scope.$apply(function(){
+  // perform any model changes or method invocations here on angular app.
+});
+
+
+
+
+
+
+ if(fieldType == 'currency' || fieldType == 'double' || fieldType == 'percent' || fieldType == 'decimal' )
+                    {
+                        updateObj.put(field, decimal.valueOf(value)); 
+                    }
+                    else if(fieldType == 'boolean')
+                    {
+                        updateObj.put(field, Boolean.valueOf(value)); 
+                    }                   
+                    else if(fieldType == 'date')
+                    {
+                        updateObj.put(field, date.valueOf(value)); 
+                    }                
+                    else
+                    {
+                        updateObj.put(field,value);
+                    }
+
+
+
+http://salesforce.stackexchange.com/questions/27160/how-to-typecast-values-based-on-fieldtypes
+
+
+
+
+
+User u = new User();
+u.Username = username;
+u.Email = email;
+u.CommunityNickname = communityNickname;
+
+String accountId = PORTAL_ACCOUNT_ID;
+
+// lastName is a required field on user, but if it isn't specified, 
+// the code uses the username
+String userId = Site.createPortalUser(u, accountId, password);
+
+
+
+
+if (userId&nbsp;!= null) { 
+if (password&nbsp;!= null && password.length() > 1) {
+return Site.login(username, password, null);
+}
+else {
+PageReference page = System.Page.SiteRegisterConfirm;
+page.setRedirect(true);
+return page;
+}
+}
+
+
+
+mapObjectNameApiToIdService
+
+$objectApiNameIdMapList
+
+https://developer.salesforce.com/forums/?id=906F00000008zxtIAA
+
+
+error
+portal account owner must have a role
+
+When a Contact is converted to Community User, the role of the Community User is determined based on the Role of the Owner who owns the Account of the Contact.
+
+
+http://sforcemaximizer.com/how-to-resolve-issues-with-site-createportaluser-returning-null/
+
+System.debug('Account Owner Id '+acc.OwnerId);
+        User u = new User();
+        //if (password != null && password.length() > 1) {
+        u.Username = username;
+        u.Email = 'ashish@cloudlendinginc.com';
+        u.CommunityNickname = acc.Name +'c12';
+        u.ProfileId = profile1.Id;
+        Id accountId1 = accountId;
+        u.FirstName = 'FirstNaame1';
+        u.LastName = 'LastNaame1';
+        //u.IsActive = true;
+        //u.EmailEncodingKey = 'ISO-8859-1';
+        //u.LanguageLocaleKey = 'en_US';
+        //u.Alias = 't1';
+        //u.IsActive = true;
+        u.ContactId = con.Id;
+        //u.TimeZoneSidKey = 'America/New_York';
+  		//u.LocaleSidKey = 'en_US';
+        //insert u;
+
+
+        <div>
+                        <label for="password">Password</label>
+                        <input type="password" name="password" id="password" class="form-control" ng-model="password" required="required" />
+                    </div>
+                    
+                    <div>
+                        <label for="confirmPassword">Confirm Password</label>
+                        <input type="password" name="confirmPassword" id="confirmpassword" class="form-control" ng-model="confirmpassword" required="required" />
+                    </div>
+
+
+
+<!-- <div ng-repeat="(key,prop) in parseFields track by $index" id="formDivContainer{!cid}">
+                <label for="{{prop.label}}">{{prop.label}}</label>
+                 
+                <div class="form-group" id="inputDivContainer{!cid}" >
+                    <input type="{{prop.type}}" id="inputFields{!cid}" ng-blur='fieldValidation()' ng-model-options="{updateOn: 'blur'}"  
+                           class="form-control" name="{{prop.fieldPath}}" ng-model="fieldPathValue[prop.fieldPath]" ng-required="{{prop.required}}"/>
+                </div>   
+            </div> -->
+
+
+            ng-class="{'dynamicColChange': isMoreFields}"
+
+
+
+            //spanContainer.classList.add("dynamicColChange");
+
+
+                                                           /*var spanContainer = document.getElementById("spanContainer");
+            if(spanContainer.classList.contains("dynamicColChange")) {
+                spanContainer.classList.remove("dynamicColChange");
+            } */
+
+
+
+
+margin-left:-20px;
+margin-top:30px;
+
+ashish@cloudlendinginc.com
+
+
+<apex:pageMessages id="showmsg"></apex:pageMessages>
+
+ApexPages.addmessage(new ApexPages.message(ApexPages.severity.WARNING,'Please enter value'));
+
+ApexPages.addmessage(new ApexPages.message(ApexPages.severity.ERROR,'Please enter Account number'));
+
+
+
+
+<div ng-class="apt.name.length >= 15 ? 'col-md-12' : (apt.name.length >= 10 ? 'col-md-6' : 'col-md-4')">
+
+
+
+ng-required="{{prop.required}} == true? true : ({{.prop.dbrequired}} == true)? true :false)"
+
+
+
+
+   https://clportal-developer-edition.na30.force.com
+
+clportalregister
+https://clportal-developer-edition.na30.force.com/clportalregister#/applicationform
+
+https://clportal-developer-edition.na30.force.com/clportalregister#/register
+
+esignsignatureview
+
+https://clportal-developer-edition.na30.force.com/#/login
+
+   https://clportal-developer-edition.na30.force.com
+
+   select id,name from applications__c where account__c = '0013600000hL5S1AAK'
+
+applicationform
+
+new link 
+https://clportal-developer-edition.na30.force.com/clportal#/
+
+
+
+
+
+    margin-top: -85px;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<input type="{{prop.type}}" id="inputFields{!cid}" ng-blur='fieldValidation()' ng-model-options="{updateOn: 'blur'}"  
++                               class="form-control" name="{{prop.fieldPath}}" ng-model="fieldPathValue[prop.fieldPath]" ng-required="{{prop.required}}"/>
+
+
+Loan_Amount__c
+Term__c
+
+
+var reg = new RegExp('^[0-9]+$');
+reg.test(val)
+
+
+angular.forEach(element.find('div'), function(node)
+{
+  if(node.id == 'someid'){
+    //do something
+  }
+  if(node.className == 'someclass'){
+    //do something
+  }
+});
+
+document.getElementById(id).classList.add("has-error");
+
+
+//var currentElement = angular.element(document.querySelector('#inputFieldsLoan_Amount__c'));
+                             //$scope.fieldPathVar = fieldPath;
+                             //$scope.fieldPathVar = "has-error" 
+                             //var inp = '#'+$event.srcElement.id;
+                             //$(inp).addClass('has-error');
+                             //var myEl = angular.element( document.querySelector( '#'+$event.srcElement.id) );
+                             // myEl.addClass('has-error');
+                             //document.getElementById($event.srcElement.id).className = "has-error";
+                             // $scope.spanId = document.getElementById($event.srcElement.id).className = "has-error";
+                             //$scope.spanId.addClass("has-error");
+                             //$scope.spanId.style.borderColor='#ff0000';
+                             //$scope.spanId.style.border='solid';
+
+
+
+
+$scope.fieldValidation = function(fieldPath, type, $event) {
+                console.log('fieldPath in fieldValidation ',fieldPath);
+                 var myMap = new Map();
+                 myMap.set("Term__c","^[0-9]+$");
+                 myMap.set("Loan_Amount__c","[0-9]+(\.[0-9][0-9]?)?");
+                 //console.log("fieldPathValue ",$.parseJSON(JSON.stringify($scope.fieldPathValue)));
+                 //console.log("fieldPathValue ",$scope.fieldPathValue);
+                 var value = $event.target.value;
+                 console.log("value ",value);
+                 var reg = new RegExp(myMap.get(fieldPath));
+                 
+                 console.log("regex test result ",reg.test(value));
+                 
+                 console.log("event ",$event);
+                 if(!reg.test(value)) {
+                     //add error message classs to selected field
+                     //display error message on top of field
+                     console.log('inside falseregex');
+                     $scope.active = "has-error";
+                     
+                     var id = $event.srcElement.id;
+                     $scope.spanId = document.getElementById(id);
+                     console.log('elemnet by id res ',$scope.spanId);
+                     document.getElementById(id).classList.add("has-error");
+                     console.log('span Id not null');
+                     $timeout(function(){
+                         $scope.$apply(function () {
+                             
+                             document.getElementById(id).classList.add("has-error");
+                             $scope.spanIdUpdated = document.getElementById(id);
+                             console.log('elemnet by id res ',$scope.spanIdUpdated);
+                             //$route.reload()
+                             
+                        }); 
+                      }, 0);
+                     
+                 }
+
+
+create an object for regular exp <apiname,regexp>
+read it through remoting, and forma gloabl map at time of loading initail page data like picklist,reference,etc
+
+check against data sent from form with those regex map
+
+look for way to update dom again using directiv,etc
+
+ng-class ="active"
+
+
+
+1k luv shak 24 aug
+ 1k road house 1 sep
+
+1200 kormangla lounge and hotels 31sp sep
+
+15,852 10 sep trip
+
+800 kormangla lounge and hotels 1 sep
+
+3,312 socials 27 aug
+
+
+
+
+
+--displaying appid based on registerd user on index page
+
+esignview component realtime
+
+bug with esign opening on next
+
+refreshing single page app taking me to home screen/index page
+
+How to add register screen appear after hitting register on login form
+
+css for mobile view ... one hack wil be to make column 1 if width is below certain level
+
+some ideas for hackathon .. Android/web apps
+
+https://login.salesforce.com/packaging/installPackage.apexp?p0=04t36000000ziFQ
+
+https://login.salesforce.com/packaging/installPackage.apexp?p0=04t1a000000VSQb
+
+http://gullycricketleague.com/gully-trophy-selection-procedure.php
+
+http://gullycricketleague.com/selection-procedure.php
+
+http://www.cricketperformancepoint.com/registration.php
+
+
+
+
+<apex:include pageName="LoginPage"/>
+        <apex:include pageName="RegistrationConfirmation"/>
+
+
+<script>
+                $(function(){ 
+                    var originalOnError = Visualforce.remoting.Util.error; 
+                    console.log('originalOnError ',originalOnError);
+                    Visualforce.remoting.Util.error = function(a,b){ 
+                        console.log('a,b ',a,b);
+                        if (a&&(a.indexOf('Page not allowed') !== -1) || a&&(a.indexOf('Invalid session') !== -1)){ 
+                            
+                            window.top.location = '{!$CurrentPage.URL}';
+                        } else { 
+                            originalOnError && originalOnError(a,b); 
+                        }
+                    } 
+                });   
+             </script>
+
+
+   
+    <div class="mainContent">
+        
+        <div class="page" style="margin-left:40px;">
+            
+            <c:LoginComponent ></c:LoginComponent> 
+            
+        </div>
+        
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,1393 @@
+
+
+LaunchPad Comp Work
+ApplicationList
+
+
+
+
+
+
+Map in JS
+queue in skuid
+opening in new window
+Adding css class at runtime using page onload
+
+
+
+
+
+
+**************************************************************************
+
+updating queue/query queue in diferent page
+skuid.$('#collateral-tab').data('object').load();
+
+
+
+
+
+*************************************  *************************************
+Map in JS
+
+var idsArray = skuid.$.map(arguments[0].list.getSelectedItems(),function(item){
+
+    console.log(item);
+    console.log(item.row.Id);
+   return item.row.Id;
+
+
+});
+
+
+*************************************  *************************************
+
+Queue in JS
+https://docs.skuid.com/latest/en/skuid/javascript/snippets/queue-custom-item.html
+
+A Queue Item Renderer snippet receives a single argument that is a JavaScript object with the following properties:
+
+arguments[0].item: The skuid.ui.Item for the Queue Item in context. Usearguments[0].item.row to get at the Item’s data row in the Queue’s Model.
+arguments[0].list: The skuid.ui.List to which the Item belongs.
+arguments[0].model: The skuid.model.Model from which the Queue’s data is derived.
+arguments[0].element: A jQuery-wrapped, empty DOM element containing the contents of the Queue Item. All desired content for the Queue Item should be added to this DOM element.
+
+
+var args = arguments[0],
+    item = args.item,
+    list = args.list,
+    model = args.model,
+    element = args.element,
+    row = item.row,
+    renderTemplate = '{{{FirstName}}} {{{LastName}}} - {{{Company}}}',
+    mergeSettings = {
+    createFields: true,
+    registerFields: true
+    };
+
+element.html(
+skuid.utils.merge('row',renderTemplate,mergeSettings,model,row)
+);
+
+
+All Items in a Queue are rendered when the Queue itself is first rendered, re-rendered, or in response to an updateData( ) on the Queue’s associated Model (e.g. after a user searches or filters a Queue).
+
+A Queue Item Renderer snippet receives a single argument that is a JavaScript object with the following properties:
+
+arguments[0].item: The skuid.ui.Item for the Queue Item in context. Usearguments[0].item.row to get at the Item’s data row in the Queue’s Model.
+arguments[0].list: The skuid.ui.List to which the Item belongs.
+arguments[0].model: The skuid.model.Model from which the Queue’s data is derived.
+arguments[0].element: A jQuery-wrapped, empty DOM element containing the contents of the Queue Item. All desired content for the Queue Item should be added to this DOM element.
+
+(Optional) Enter a Skuid Page or Visualforce page that will display as a default, before any queue item is selected.
+(Optional) For the Query String, enter the URL parameters to send along with the page include request above. This parameter will load automatically when the page is loaded, and will be overwritten by the Query String sent over when the Queue Item is selected. If you want the first item in the queue list to show by default put something like “Id={{$Model.LeadData.data.0.Id}}” here.
+
+In the renderTemplate variable, we define a merge template we want to use to display data from the current row we are handed, e.g. for our scenario, a Lead record from Salesforce. We use triple mustaches here to prevent Skuid from running its standard Name field renderer logic on our FirstName, LastName, and Company fields, which, since this is a Lead record, are all “Name” fields and thus are rendered as Hyperlinks to the Lead record. We don’t want this hyperlink behavior for our Queue Item because it will interfere with our Queue Item On-Click Action, which is to Update a Page Include Panel in context of the selected Queue Item.
+
+
+Alternatively, we could also have told Skuid to not run standard field renderer logic on merge fields in our template by setting createFields to false in our mergeSettings variable, and we could have then used double braces instead of triple.
+
+we have a function and we used bind to create 2 diff copy
+of the function with some permanent set values.thats called currying
+
+
+
+1. functionla prog is basically thinging in terms of function and how one can utilize power of 1st class functions.
+2. as in example we have an array and we are using another array by mutating first array.
+3. what we can do that we can create afunction that takes that 1st array and call another function for each of it item asn retunr ans to 2nd array.
+4. this way we are not binding our main function to any specific task.in a sence it can do anything wewant otthose array elemt based on what function we have passed for evalurtion on htose array eelem.
+5. we have call same func mapForEach and passed different func as param each time to het diff result.
+5. we can from here on do more ocmplex things where we can pass full fledged func a paramswhich do muh more than just basic stuff.
+6. in case of arr4 we are passing chgeckPastLimit as func but bcz thst guc nees 2 params as armater and fn in mapForEach requires only 1 we willl et frist apram as contant using bind. thst what we have done with limiter.
+7. in checkPastLimitSimplified we have a param limiter and we are reurning another function whcih takes 2 param. asnd wehave used bind to set first apram of return func as contant.these are diff wasy to mae use of func prog
+
+fn only need one param delimete needs 2.. so we used bind
+set first parame to 1
+think in trms of how function can be used to return function and simplified thifgs..thsts best in functional prog
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+*************************************  *************************************
+
+opening in new window
+
+Open in new TAB
+ window.open('/'+appId, '_blank');
+
+Open in new window
+window.open('https://www.google.com', '_blank', 'width=' + screen.width + ',height=' + screen.height);
+
+url = "URL TO PAGE TO DO STUFF" + row.Id
+        window.open(url, '_blank');
+
+
+var params = arguments[0],
+	$ = skuid.$;
+var args = arguments[0],
+    item = args.item,
+    list = args.list,
+    model = args.model,
+    element = args.element,
+    row = item.row;
+
+console.log('params ',params);
+console.log('params.row.Id ',params.row.Id);
+
+console.log('model',model.data[0].genesis__Application__c);
+var appId = params.row.genesis__Application__c;
+
+/*
+{BASEURL}/a472A000000MGs5
+Open in new Tab
+*/
+ window.open('/'+appId, '_blank');
+
+
+var newURL = sforce.apex.execute(
+"AutomaticOppAssigment", "OpportunityAssignment",
+{
+acctIdInput: acctRow.Id,
+acctTerritoryInput: acctRow.Territory,
+acctSalesRegionInput: acctRow.SalesRegion,
+acctSegmentInput: acctRow.Segment,
+acctOwnerInput: acctRow.OwnerId
+});
+parent.location.href = newURL;
+
+
+*************************************  *************************************
+
+https://docs.skuid.com/latest/en/skuid/merge-syntax/global-merge-variables.html?_ga=2.53892257.845853648.1504518557-1972992049.1496994822
+
+$User.userId –> the 18-digit User Id of the running User. Same as $Api.User_Id.
+$User.sessionId –> the Session Id of the running User. Same as $Api.Session_Id.
+$User.organizationId –> the 18-digit Id of the current Salesforce Organization. Same as $Api.Organization_Id.
+$User.organizationName –> the Company Name of the current Salesforce Organization, e.g. “Acme Recruiting Inc.”
+$User.profileId –> the 18-digit Id of the running User’s Profile, e.g. “00eG0000000143nuLIAQ”.
+$User.userRoleId –>
+
+
+
+
+*************************************  *************************************
+
+Adding css class at runtime using page onload
+
+.moveRoleB {
+        /*margin-left: 163px !important; */
+        margin-left: 20% !important;
+        }
+
+        .moveRoleS {
+        /*margin-left: 49px !important; */
+        margin-left: 20% !important;
+        }
+
+
+<script type="text/javascript">
+    function addCssClassForRolesSection() {
+        //detect the window
+        var width = screen.width;
+        if(width > 1550) {
+            var elem = document.getElementsByClassName('duelingListBox');
+            elem[0].className += ' moveRoleB';
+        } else {
+            var elem = document.getElementsByClassName('duelingListBox');
+            elem[0].className += ' moveRoleS';
+        }
+    }
+    window.onload = function() {
+        console.log('onLoad get called');
+      addCssClassForRolesSection();
+    };
+</script>
+
+
+
+*************************************  *************************************
+loading page include
+
+snippet for button press:
+var component = arguments[0].context.component,
+    indicatorRow = arguments[0].row,
+    indicator = indicatorRow && indicatorRow.Id,
+    page = indicatorRow && indicatorRow.Indicator_Dashboard_Page__r.Name,
+    goalRow = skuid.$M('SelectedGoal').getFirstRow(),
+    start = goalRow && goalRow.Start_Date__c,
+    end = goalRow && goalRow.Target_Date__c,
+    includeElement = component.element.next(), //get the page include element.
+    include = includeElement.data('object'),
+    $t = skuid.time;
+start = $t.getSFDateTime($t.parseSFDate(start));
+end =  $t.getSFDateTime($t.parseSFDate(end));
+include.pagename = page;
+include.querystring = '?startdate=' + start + '&enddate=' + end + '&indicator=' + indicator;
+include.load();
+
+
+
+var pageInclude = skuid.$('#dynamicPageInclude').data('object');
+pageInclude.pagename = sourceName;
+pageInclude.querystring = '?id='+
+pageInclude.load(function(){});
+
+
+*************************************  *************************************
+Reload or refresh page include
+
+
+skuid.$('#MyPageInclude').data('object').load();
+
+
+window.location.reload()
+
+*************************************  *************************************
+
+
+https://community.skuid.com/skuid/topics/is-it-possible-to-show-tab-content-on-tab-mouseover-instead-of-tab-click
+
+https://community.skuid.com/skuid/topics/set-tab-in-javascript
+
+
+
+*************************************  *************************************
+
+How to refresh a Template Component?
+
+skuid.component.getById('MyCustomId').render();
+
+
+
+
+*************************************  *************************************
+
+calling snippet from template
+
+<div class="templateImageContainer" onclick="javascript:skuid.snippet.getSnippet('handleCreateNewApp')();">
+    <img src="https://genesis.na42.visual.force.com/resource/genesis__CLSStyleSheetPack/images/House.png" class="image-button deckImage"/>
+ </div>
+
+
+https://community.skuid.com/skuid/topics/call-a-snippet-from-html-in-a-template
+
+
+
+*************************************  *************************************
+
+
+Condition with 'multiple specified values' global merge syntax
+Try {{$Model.Potential.conditions[7].value}} or Try {{$Model.Potential.conditions[7]value}}
+
+https://community.skuid.com/skuid/topics/condition-with-multiple-specified-values-global-merge-syntax
+
+*************************************  *************************************
+
+
+
+value="00E1I000000DLggUAG", label="CEO",
+
+src\layouts\Launchpad_App_Subscription__c-Launchpad App Subscription Layout.layout
+src\layouts\Launchpad_App__c-Launchpad App Layout.layout
+
+
+
+--Putting dynamic images from staticreslurces
+--profiles inclusion in createApps
+--add customize button on header
+
+--reports and dashboard
+--task inclusion
+--loan committee
+
+appraisal admin page
+
+-- adding role based access control check mechnism
+--auto refresh after app subs
+--hover effect
+-- clcommon showing api names in pick list
+-- support for vf pages and error display in skuid page
+
+class="fa fa-cog"
+
+src="https://mblazonry.my.salesforce.com/00Tj0000004wkMB"
+
+
+<iframe id="launchpad-iframe" src="apex/skuid__ui?page=LaunchpadDetails&id={{{$Model.UserRecords.data.0.Id}}}&inc=LaunchpadDefault" width="100%" height="535" frameborder="0"/>
+
+
+genesis__CLSStyleSheetPack/images/Launchpad_Reports.png
+
+
+00O/o
+
+
+
+-- add header to each page
+
+REMOVE  mailing addres from contact in party relationshio deatils
+
+coming back to home page launchpad
+-- adding vf page to redirect to skuid paunchpad -see taylor way
+
+
+
+
+
+
+
+*************************************  *************************************
+
+Refresh Custom Component on Model Requery
+https://community.skuid.com/skuid/topics/refresh-custom-component-on-model-requery
+
+skuid.componentType.register('acme__table',function(element,xmlDef,component){
+    component.draw = function(){
+        element.html('<table/>');
+    };
+    var editor = new skuid.ui.Editor(element);
+    var model = skuid.model.getModel('MyAwesomeModel');
+    editor.registerModel(model);
+    editor.handleDataRefresh = function(){
+         component.draw();
+    };
+    component.draw();
+});
+
+
+
+
+*************************************  *************************************
+
+
+skuid.component.getById('add-new-app-wrapper').element.hide();
+
+
+var targetDiv = document.getElementById("foo").getElementsByClassName("bar")[0];
+
+$('.a.b')
+
+So for an element that has an ID of a with classes b and c, you would write:
+
+$('#a.b.c')
+
+
+var titleElement = document.getElementById("title");
+var titleChildren = titleElement.getElementsByTagName("H1");
+
+document.querySelectorAll('.class1.class2');
+
+<div class="class1 class2"></div>
+document.getElementsByClassName('class1 class2')
+*************************************  *************************************
+
+iframe
+border-width: 0;
+
+margin-top: 40px;
+
+
+*************************************  *************************************
+
+assigning tooltip values to buttons on load using js
+
+       // $('#loan-edit-button').attr('title', 'Edit');
+    //  $('#add-covenant').attr('title', 'View/Record Covenants');
+    //  $('#show-history').attr('title', 'View Renewal History');
+    //  $('#policy-exception-button').attr('title', 'Report Policy Exception');
+    //  $('#fee-button').attr('title', 'Add/Manage Fees');
+    //  $('#change-memo-button').attr('title', 'Submit Change Memo');
+    //  $('#credit-memo-button').attr('title', 'Generate Credit Memo');
+
+
+
+
+
+
+*************************************  *************************************
+
+
+Loading iframe
+
+var userRecord = skuid.model.getModel('UserRecords');
+var model = userRecord.getFirstRow();
+var userId = model.Id;
+
+var url = $('#launchpad-iframe').attr('src');
+
+if (url.lastIndexOf('&id=') >= 0) {
+    url = url.substring(0, url.lastIndexOf('&id=')) + '&id=' + userId + '&inc=LaunchpadTasks';
+} else {
+    url += '&id=' + userId;
+}
+
+
+$('#launchpad-iframe').attr('src', url);
+$('#launchpad-iframe').hide();
+
+$('#launchpad-iframe').on('load', function() {
+    $("#launchpad-iframe").show();
+});
+
+
+
+
+
+
+*************************************  *************************************
+
+
+to check if come leem is hedden i.e display:none is set ot  nor
+
+if($('#dynamicPageInclude:visible').length === 0) {
+    console.log('dynamicPageInclude si hidden');
+} else {
+    console.log('dynamicPageInclude is not hidden');
+}
+
+https://stackoverflow.com/questions/15924751/check-if-a-element-is-displaynone-or-block-on-click-jquery
+
+
+
+*************************************  *************************************
+
+
+calling snipper from inside apther snippet
+
+var getdisplayVfTempSnippet = skuid.snippet.getSnippet('searchIncludePanel');
+
+var res = getdisplayVfTempSnippet();
+console.log('res ',res);
+if(res === true) {
+    skuid.component.getById('vfpage-iframeid-template').element.hide();
+} else {
+    skuid.component.getById('vfpage-iframeid-template').element.show();
+}
+
+
+
+
+
+*************************************  *************************************
+
+
+
+
+Opening queue inside a queue
+
+https://community.skuid.com/skuid/topics/nested_queues_with_a_detail_page
+
+
+
+*************************************  *************************************
+
+
+var windowSize = $(window).width();   // 1920  1366
+
+
+
+
+
+*************************************  *************************************
+
+getting skuid queue data in snippet
+skuid.$C('accountQueue').element.data('object').list.getSelectedItems()
+
+
+
+
+skuid.$C('MyQueueComponentId').render();
+el.addClass('highlighted-queue-item');
+
+*************************************  *************************************
+
+
+//var party = skuid.model.getModel('AppraisalAdminBidsDetails_CollateralValuation');
+    //var url = party.getFirstRow().genesis__Attachment_URL__c;
+    //console.log('url ',url);
+    //var reportId = url.substring(url.lastIndexOf('/')+1);
+    //var title = 'Collateral Report';
+    //var iframeUrl = '/servlet/servlet.FileDownload?file=' + party.getFirstRow().genesis__Appraisal_Document_ID__c;
+    //console.log('iframeUrl ',iframeUrl);
+    //window.open(iframeUrl, "theFrame");
+
+
+
+
+    <iframe id="document-iframe" name="theFrame" width="100%" height="260px"></iframe>
+
+*************************************  *************************************
+
+
+var newChargeModel = skuid.model.getModel('FeeCharge');
+var newChargeRow = newChargeModel.data[0];
+
+var newFeeModel = skuid.model.getModel('FeeDefModel');
+var newFeeRow = newFeeModel.data[0];
+
+var newChargeCloneModel = skuid.model.getModel('FeeChargeCloneModel');
+var newChargeCloneRow = newChargeCloneModel.data[0];
+
+//setting paramemts for hiding and displaying editors for creating/showing fee
+if(!newChargeRow){
+    var newChargeRow = newChargeModel.createRow({
+        additionalConditions: [
+            { field: 'NewCreateAdhoc', value:false },
+            { field: 'NewCreateTemplate', value: false },
+            { field: 'viewExisting', value: false },
+        ]
+    });
+
+}else{
+    newChargeModel.updateRow(newChargeRow ,
+                        { NewCreateAdhoc : false ,
+                          NewCreateTemplate : false,'viewExisting':false });
+
+}
+
+
+
+
+
+*************************************  *************************************
+https://stackoverflow.com/questions/17250308/first-unbind-click-and-then-bind-jquery
+
+
+BINDING AND UNBINDING HANDLERS
+
+The Key is Scope.
+
+You must declare and define the function (trainClick(){stuff it does}) outside the event-handler so that the other buttons' functions can see it.
+
+Below is an example.
+
+function trainClick()
+{
+    alert("train is clicked"); //Notice this function is declared outside event handlers below
+}
+$('#button1').on("click", trainClick); //this calls the above function
+
+$("#button2").on("click",function(){
+    $("#button1").off("click",trainClick); //unbinds button1 from trainClick() function (event handler)
+});//End Button 2 click
+
+$("#button3").on("click",function(){
+    $("#button1").on("click",trainClick); //binds button1 to trainClick() function (event handler)
+});//End Button 2 click
+
+
+
+
+
+
+*************************************  *************************************
+
+
+
+
+
+
+
+
+*************************************  *************************************
+
+
+
+
+
+
+
+
+*************************************  *************************************
+
+
+
+
+
+
+
+
+*************************************  *************************************
+
+
+
+
+
+
+
+
+*************************************  *************************************
+
+
+
+
+
+
+
+
+*************************************  *************************************
+
+
+
+
+
+
+
+
+*************************************  *************************************
+
+
+
+
+
+
+
+
+*************************************  *************************************
+
+
+
+
+
+
+
+
+*************************************  *************************************
+
+
+
+
+
+
+
+
+*************************************  *************************************
+
+
+
+
+
+
+
+
+*************************************  *************************************
+
+
+
+
+
+
+
+
+*************************************  *************************************
+
+
+
+
+
+
+
+
+*************************************  *************************************
+
+
+
+
+
+
+
+
+*************************************  *************************************
+
+
+
+
+
+
+
+
+*************************************  *************************************
+
+
+
+
+
+
+
+
+*************************************  *************************************
+
+
+
+
+
+
+
+
+*************************************  *************************************
+
+
+
+
+
+
+
+
+*************************************  *************************************
+
+
+
+
+
+
+
+
+*************************************  *************************************
+
+
+
+
+
+
+
+
+*************************************  *************************************
+
+
+
+
+
+
+
+
+*************************************  *************************************
+
+
+
+
+
+
+
+
+*************************************  *************************************
+
+
+
+
+
+
+
+
+*************************************  *************************************
+
+
+
+
+
+
+
+
+*************************************  *************************************
+
+
+
+
+
+
+
+
+*************************************  *************************************
+
+
+
+
+
+
+
+
+*************************************  *************************************
+
+
+
+
+
+
+
+
+*************************************  *************************************
+
+
+
+
+
+
+
+
+*************************************  *************************************
+
+
+
+
+
+
+
+
+*************************************  *************************************
+
+
+
+
+
+
+
+
+*************************************  *************************************
+
+
+
+
+
+
+
+
+*************************************  *************************************
+
+
+
+
+
+
+
+
+*************************************  *************************************
+
+
+
+
+
+
+
+
+*************************************  *************************************
+
+
+
+
+
+
+
+
+*************************************  *************************************
+
+
+
+
+
+
+
+
+*************************************  *************************************
+
+
+
+
+
+
+
+
+*************************************  *************************************
+
+
+
+
+
+
+
+
+*************************************  *************************************
+
+
+
+
+
+
+
+
+*************************************  *************************************
+
+
+
+
+
+
+
+
+*************************************  *************************************
+
+
+
+
+
+
+
+
+*************************************  *************************************
+
+
+
+
+
+
+
+
+*************************************  *************************************
+
+
+
+
+
+
+
+
+*************************************  *************************************
+
+
+
+
+
+
+
+
+*************************************  *************************************
+
+
+
+
+
+
+
+
+*************************************  *************************************
+
+
+
+
+
+
+
+
+*************************************  *************************************
+
+
+
+
+
+
+
+
+*************************************  *************************************
+
+
+
+
+
+
+
+
+*************************************  *************************************
+
+
+
+
+
+
+
+
+*************************************  *************************************
+
+
+
+
+
+
+
+
+*************************************  *************************************
+
+
+
+
+
+
+
+
+*************************************  *************************************
+
+
+
+
+
+
+
+
+*************************************  *************************************
+
+
+
+
+
+
+
+
+*************************************  *************************************
+
+
+
+
+
+
+
+
+*************************************  *************************************
+
+
+
+
+
+
+
+
+*************************************  *************************************
+
+
+
+
+
+
+
+
+*************************************  *************************************
+
+
+
+
+
+
+
+
+*************************************  *************************************
+
+
+
+
+
+
+
+
+*************************************  *************************************
+
+
+
+
+
+
+
+
+*************************************  *************************************
+
+
+
+
+
+
+
+
+*************************************  *************************************
+
+
+
+
+
+
+
+
+*************************************  *************************************
+
+
+
+
+
+
+
+
+*************************************  *************************************
+
+
+
+
+
+
+
+
+*************************************  *************************************
+
+
+
+
+
+
+
+
+*************************************  *************************************
+
+
+
+
+
+
+
+
+*************************************  *************************************
+
+
+
+
+
+
+
+
+*************************************  *************************************
+
+
+
+
+
+
+
+
+*************************************  *************************************
+
+
+
+
+
+
+
+
+*************************************  *************************************
+
+
+
+
+
+
+
+
+*************************************  *************************************
+
+
+
+
+
+
+
+
+*************************************  *************************************
+
+
+
+
+
+
+
+
+*************************************  *************************************
+
+
+
+
+
+
+
+
+*************************************  *************************************
+
+
+
+
+
+
+
+
+*************************************  *************************************
+
+
+
+
+
+
+
+
+*************************************  *************************************
+
+
+
+
+
+
+
+
+*************************************  *************************************
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

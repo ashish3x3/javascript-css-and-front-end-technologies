@@ -1,0 +1,13 @@
+<apex:page showHeader="false" controller="SaveApplication">
+    <html>
+        <head>
+           <c:CommonIncludeComponent ></c:CommonIncludeComponent> 
+        </head>
+        <div class="page" ng-app="myApp" ng-controller = "HelloController">
+            <c:ComponentApplication > </c:ComponentApplication> 
+            <c:ComponentAccount > </c:ComponentAccount>
+            <c:ComponentSubmit > </c:ComponentSubmit>
+            
+        </div>
+    </html>
+</apex:page>

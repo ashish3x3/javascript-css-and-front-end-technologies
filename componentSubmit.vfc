@@ -1,0 +1,18 @@
+<apex:component >
+    
+    <input type="submit" ng-controller = "submitController" ng-click="onSubmit()" />
+    
+    <script>
+    
+    //define the controller for view1
+    app.controller('submitController', ['$scope', 'dataService', 'requestNotificationChannel', function($scope, dataService, requestNotificationChannel) {
+        $scope.item = 'Test Submit Broadcast';
+        $scope.onSubmit = function() {
+            //window.alert('called onsubmit in submit component');
+            console.log('called onsubmit in submit component');
+            requestNotificationChannel.submitData();
+        }
+    }]);
+    
+    </script>
+</apex:component>

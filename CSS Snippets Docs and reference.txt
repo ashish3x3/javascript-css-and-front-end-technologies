@@ -1,0 +1,1522 @@
+
+
+To change the layout from vertical to horizontal into square blocks
+
+
+
+known issue
+image has extra line above image o hover..deck imgae
+
+
+skuid.model.getModel('Opportunity') // Accessing a model //
+skuid.component.getById('sk-1IioRB-76') // Accessing a component //
+skuid.model.getModel('Opportunity').getFirstRow().Name // Accessing the "Name" field from the first row of the Opportunity model//
+
+
+workingRow //First, enter this to see that the row—even after being saved—is still stored within its variable. The row's Id field was updated when it was saved, but that field is also updated within your object as well. //;
+account.deleteRow(workingRow) //This function will mark the row for deletion, but it won't be deleted from your data object until you use save()//;
+account.save();
+
+*****************************  ******************************  *******************************
+To change the layout from vertical to horizontal into square blocks
+
+give id to top container
+give same class to each of the individual list element
+
+use #uniqueIdContainer .classIndividual.classAnoterIndivIfneede {  // no space between or > between class names
+	....
+}
+
+eg. image 1 in CSS Imahes used n docs
+<div class="class="nx-item nx-queue-item""><div class="nx-template"><div class="nx-field" data-uid="7"><div class="nx-fieldtext">View Loan Opportunities</div></div></div></div></div>
+
+#launchpad-app-queue .nx-item.nx-queue-item {
+    float: left;
+    width: 150px;
+    height: 150px;
+    margin-left: 10px;
+}
+
+
+*****************************  ******************************  *******************************
+
+To move text inside block from top to bottom in all list
+
+
+#launchpad-app-queue .nx-template {
+    margin-top: 114px;
+    margin-left: 18px;
+ }
+
+
+
+
+
+
+
+*****************************  ******************************  *******************************
+
+To hid certain block lement inside a class inside a container ID
+--this will hide all the nesting inside that class..dosen't matter what their css was
+
+
+#launchpad-app-queue .nx-list-footer {
+    display: none;
+}
+
+
+
+
+
+
+
+*****************************  ******************************  *******************************
+
+
+TO avoid unnecessary height and scrllbars
+
+One quick change I'd make to this is to use "min-height" instead of "height". That way If your page gets taller than the height of the viewport, you won't get an unwanted scrollbar.
+
+
+
+
+
+
+*****************************  ******************************  *******************************
+
+setting backgroud color to somthing for entire page
+
+set bosy with clss X and then set back-color for that class
+
+ background-color: #ebeef0
+
+.nx-page {
+    padding: 0;
+    background-color: #ebeef0
+}
+
+
+
+
+
+*****************************  ******************************  *******************************
+use RelationshipDashboard for quweu css
+
+
+
+*****************************  ******************************  *******************************
+
+div[pagename="RelationshipDashboard"] {
+
+background-color: white;
+
+
+
+
+
+*****************************  ******************************  *******************************
+
+
+how to set white background of loaded pages
+
+
+
+
+
+
+*****************************  ******************************  *******************************
+
+
+.party-queue-panel .sk-icon.sk-icon-members:before {
+    font-family: FontAwesome;
+    content: "\f007";
+    padding: 4px;
+    font-size: 20px;
+    vertical-align: middle;
+}
+
+
+
+
+
+
+*****************************  ******************************  *******************************
+
+To set css on any inner item which is not moving even after putting margin,padding..make sure you set its display to display:block..then only it will move..
+
+
+#launchpad-app-queue .nx-fieldtext {
+    display:block;    // if this is set to inline it will not move
+    margin-top: 1px;
+    margin-bottom: 10px;
+    color:#222;
+ }
+ 
+
+
+
+
+*****************************  ******************************  *******************************
+
+page include through javascript
+It's not in the documentation, you're right, but here's how to do it:
+
+First, make sure your Page Include component has a Unique Id set, so that we can reference it via JavaScript:
+
+var row = skuid.model.getModel('MyModel').getFirstRow();
+var pageInclude = skuid.$('#MyPageInclude').data('object');
+pageInclude.pagename = 'AccountDetailInclude';
+pageInclude.querystring = '?id=' + row.Id;
+pageInclude.load(function(){
+   console.log('done loading');
+});
+
+https://community.skuid.com/skuid/topics/change_the_page_included_in_javascript
+
+
+https://{{$Model.Org.data.0.InstanceName}}.salesforce.com/resource/RECON__wi_wind
+
+{{#Ultrasound_Skill_Approved__c}}<img src="/resource/MDSignature">{{/Ultrasound_Skill_Approved__c}}
+
+/resource/CLSStyleSheetPack/images/House.png
+
+
+
+*****************************  ******************************  *******************************
+
+skuid to vf
+
+https://docs.skuid.com/latest/en/skuid/deploy/salesforce/visualforce/skuid-page-visualforce-component.html?_ga=2.195997865.425022675.1504864363-1972992049.1496994822
+
+
+
+
+
+*****************************  ******************************  *******************************
+Image resize
+https://github.com/viliusle/Hermite-resize
+
+https://addyosmani.com/resources/essentialjsdesignpatterns/book/
+Node.js the Right Way: Practical, Server-Side JavaScript That Scales 1st Edition
+https://johnresig.com/apps/learn/#65
+
+BUILDING OWN FRAMEWORK IN js
+https://www.youtube.com/watch?v=dyvQ3WeZD6Y&index=5&list=PLIn1Yut6MvccYKkaDHDJKECpN1LMDTpha
+
+js GOOD VS BAD  way of coding : full fledged git example covering all
+https://github.com/airbnb/javascript
+
+https://www.manning.com/books/secrets-of-the-javascript-ninja
+
+last
+http://www.javascriptkit.com/javatutors/
+
+
+
+SOLVING PROBLEMS WITH JAVASCRIPT..REAL TIME PROBLEM
+http://www.codewars.com/dashboard
+
+write code for any one algo to visualize
+https://github.com/parkjs814/AlgorithmVisualizer
+
+https://github.com/trending/javascript
+
+http://www.dreamincode.net/forums/topic/78802-martyr2s-mega-project-ideas-list/
+https://googlecreativelab.github.io/coder-projects/
+
+
+*****************************  ******************************  *******************************
+
+
+
+In context creation phase, compiler tried looking for the var a but it couldn't find it so it throw error a is not defined which is different than a is undefined.
+
+when you declare a variable var a but do not set it to any value js compiler sets it to a special value called undefined
+
+but never set a = undefined in your code, lets it act as its not defined by you. its a dangerous practice. I have never set this value.
+
+In execution creation phase, function b() and var a gets stored in memory. var with undefined. value will set in execution phase andnot creation phase.
+so now in execution phase, line 5 gets executed calling function printn console. then line 7 gets executed and since var a is udefined in memory till thne,it prints undefined,then line 9 sets the value of a to hello owrd which later gets printed for a. 
+
+it amy not be for a browser which could be runnign mutiple things but as a programmer alwasys belie that JS is single threadea dn synchronous ..
+
+
+every function is JS creaets it own execution context (create and excute it... like setting up variable and running sam like GLobal execution context which create window obje and then attach yor program to it to make it run,etc..) in execution stack
+and since JS is sync, only one line will run at a time.so line below will not run..
+
+each function runs in it sown execution context and uses variable fro its context and not global.
+so the last cosole a will print a from global context whxh iwll remian 1
+
+
+every execution context has referent ot outer environemt.
+scope chain : looks in outer scope where it is written ..
+
+if a function is not insode any pother function,it will sit in gloabl execution context.
+so when b is insde func a and b wants to print myvar it will look in a as see if myvar is defined there..so it print myvar from therm instead of global
+
+if myvar is defind inside function a but function b is defined above myvar defintion and functio b is trying ot preint myvar it will print myvar present in function a stil.it dosen;t mater how your code is orderd on the screen but when lexical parser runs it will put them in ordersame like creation and execution phase dscussed before.
+
+
+let is like var but you are not allowed to use ti before its declaration in the code. even though it will be put in memory in creation phase with undefoined but you stilll canooot use it like var. its similr to oterh block scope programming language. and it canot beused outside of its block
+
+
+In browser there are multiple things running on like rendering engine,http reuest, js engine..so evnt though js engine is synchronous browser can do mutiple things at a time.
+like it can store all the evnt is an event queue and process them one by one once function execution stack gets empty and not before that.i.e event queue starts after function execetion gets empty.then it wil put handler for event quese in function stack and continue
+
+
+so still evrythnh is runnin synchronously but its the brpwser whch is putting every event i the event queu and amkingthem run ..which looks async
+
+
+
+
+Here what happesn is first the call is mde to waitfor3Sec() which will print finished function and retun to line 17 and pring finished execution.
+i.e fincshed function
+	finished execution
+
+but now what happend if U click on the page whicle its loading i.e a cick event ocures so what that shoud get printed. In the end bcz js engine won't look at he event quese until the stack is empty;  wil run it only after function stack is empty which will become agter line 17 in printed. After that only js engine will create excetion stack for the handlers.so output would be
+finished function
+finished execution
+click event ---- in the end 
+
+
+Js uses dynamic typing  i.e U don't it what type the varibale holds.
+
+
+use NULL instead of undfined when U wnat to set somethign to not having any value. and leave undefined to js engine
+
+
+
+
+JS provide infix notation where operator sits between the operands.JS taks care of all underneith conversion for you as it is dynmically type language
+
+
+0 converts to false, empty string '' corresponds to flse, undefined and null to false.
+
+
+special behaviour of OR operator is if U pass it two values it will return the firt value which cohence to true and not true r false only.
+
+
+All global obect resides in window object
+if U load multiple library file sin main file.then they all will be vaaibleb in gloabl context. i,e if there multiple var with same name then the file which wa loaded last will overrite thta varibael..
+we can check that if that variable is preent in global context using window.libraryName = window.libraryName || 'lib2'
+
+checking the global context to avoid collision
+
+
+memeber access operator : dot
+
+we can have differet container to avoid namespace colision
+
+
+Code is just a part of the function atached to it like other parts. Think of function in this way for JS instead of just as normal proging lanf function which are just buck of code tied together and invocable
+
+
+All function execution has its own this set up in creation phase
+
+this points to global context objet at begining.... i.e window object
+
+so whenever U creta any function in the gloabl context, this will alwasy point to window objct
+even though there are multiple execution context bcz of running global context functions
+
+bcz this points to gloabl obejct whatever U set inside a function using this. will be set to global context and is accessible anywhere in global context
+
+when a function inside an object is invoked, this will point to that obejct and not global context. this is diff from having this in global context funtion.
+
+this inside a function which is inde a function of object points to global context this and not containf object..
+Many people think this is a bug in js but not ths how js works
+
+In the given coe the output would be same as previous as the this.name = new Name has no effect but what actually happend si is it will set the name of global context and not object context
+
+common way to het over this is to create a referen to this in object context and use that every where else inside the object insteadof using this.this way U ll be sure that self is pointin to right context and not global one.
+how JS engine finds this inside nested blocks or function is by scope chain.it try to look for self declarion in outer context one up at a time..
+
+
+arr[3] will get the function and arr[3]() will run it.
+
+
+syntax parser runing in browser js engine interprets your code char by char to find valid tokens and making changes as it goes.
+
+Js engine try to hep by makng semicolan insertion. but it can create a problem
+like in case of return sttement below. Js engine try to insert semicolan after return to make it valid sysntx but this can lead to probels with other types of return stement
+
+writing curly braces on same line helps overcome this by syntax parsers.
+
+
+
+JS engine pasers ignore comment sectiona dn white space.we can make sue f comments to make our code more resdalbel
+
+
+3; str1; etc are all valid js statement .it is not getting stored in any variable,etc but it will not throw error.
+these are like IIFE. IIFE works along same line.
+
+this is error bca a function statement cannot be anonymous.it needs a name
+
+the first word of the function statement ha to be 'function'. so we have to rick parsers someway into tellingthat it is not a function sttement.
+there are many ways to achie this the best way is to enclose oyour function statement insde a () parentheses like jquey does. this will make it act like IIFE
+
+
+
+you can invoke it both ways by having () outside ot insde after '}'. No good or bad way. personal preferences.
+
+
+
+What is weired here is how when the first function returns the result and U make a call to retunrnd function. How it still have access to 'whatToSay' field bcz the function function execution is over.
+
+It happens bcz of closure.
+
+1. you never create a closeure JS engine does
+2. JS engine make sure that all the variable a function need at runtime is 
+intact even though the outer execution context is no more in stack
+3. even though greet() funtion executo statck is poped out of stack but 
+the variable holds in memory are still ther ebfore JS GC clears them out. 
+4. And sayHi function holds the referen to that memory address and thts 
+how it can still take out value of 'whatToSay' from the memeory even though 
+greet() execution context s gone.
+5. and JS engine make sure they are still accessible to other executon context 
+later down the line the scope chain f any oteh functio needs it.
+
+
+
+
+1. For loop is just pushing function definition ot the array/memory without executing it
+2. the trick here is when we call function all its doing is putting the function inside function in memory and console log will not run now.it ony run duing executionn phase and not suring construction phase. this confuses people.
+3. so in execution context of buildfunctions 'i' will store finla value as 3 when rturn arr was executed.
+4. after this execution context of buildfunctions is poped out bt what in memory still there. so we have  i = 3 and arr= [f0,f1,f2
+5. so now hen we call arr[0](), its ececution context gets clreated and it will try to print 'i' whcih is not present in it context so it will go doen scope chain to find it in previous context i.e i=3 adnt hst y its 3 all the time.
+
+The key here to understand that console log will not get prited untill U invoke tht function. getting stored as fuction in ar will not invoke consoel.log.
+and 'i' is 3 by thetimewe called these func
+
+
+
+'let' by es6 help overcome this. we can get 0,1,2 as answer by using let.
+let creats new memory for each i and out it in its context so thts when console run it has j to look fr.
+
+
+How to do it in es% the current version.
+1. we can use IIFE to overcome this and create its wn context everytime it runs.
+
+2. we will pass 'i' as param. and now when executoiin ontext happens it will lookk for j in IIFE context whe we have apsed 'i'. so it print those j values in order.
+
+
+
+
+we can create 2 different exection cntext for the same function using closure.
+
+Key points:
+1. every time you call a function it create a new executioncontext
+2. all the function created inside tht function holds referent o tht execution context. so even though here we have two language in two different context, JS engine knows which inner function was create d where , one to point to later when we call thsoe inside functions.
+
+
+
+1. if we have used settimeout or jquey click function, its essentialy a use of 1st class functiona and closure.
+2. nc ase of time out  fro 3 sec, it move out of the execution for 3 sec and come in again but by thm the parent function is done executionand out of statck but settimiout still have access to the variabels from outer functions
+
+
+1. we are passing anonymous function ot the above function as params
+
+
+
+1. all objects have access to bind,apply and call
+2. bind return an function
+3. when u do logName.bind(person)..basically U r binding an funtion obejcy to another object. so that if insode that function U want to sue any of the otehr object reference you can now.bcz this of logName will point to execution env of person obejct
+
+
+other way is to directly bind on 
+the fly whie creating the object.
+
+
+1. call lets you decde whatr youe this var is gouing to be and pass other func.. logName.call(person)..now this in logName will point to person obejct exec env.
+2. bind do not execute the func it jsut create a copy of the func and then you have to invoke it. call execute simultaneously
+3. apply is almost same as call() but it needs an array of parameters. logName.apply(person,[arg1,arg2,...])
+4. we can have IIFE and use apply to pass array of aprams neded
+
+1. In real life we can use it to borrow functions like in the example. we call function of person1 but want to print data from person 2 . so we used apply to bind this of that function to person2 insted of person1 itself which is bydefault.
+2. all U need is similar proprties names
+
+
+1. bind creates new copy of the function. 
+2. if you pass any params to it then it will set that paraeter of the bind function as contant as in example. we set bind(this, 2). waht it soes is it will amke a =2 for every call from here on.. it will behave as a is constant and the function will behave as multiple 2nd param by 2 everytime fornew y values
+3. whatever u pass will be 2nd param
+
+
+1. when U call john.getFullName()..this in getFull name gets set to the originator of the call i.e Jane.
+2. Jane only has first name os it go prited wit this.firstname but when lastname its not ther so it checked in prototpe obejct and there if inds its default. so Jane Default
+
+
+1. everything(object) in js has aprototype except for base Object which is the parent of all prototypes. i.e if U do arr.__proto__.__proto__ u will get the final Object {} as prototype
+
+
+
+
+
+1. for in dosen't only bring prop of its own object but its prototype also
+2. we use obj.hasOwnProperty('proName')..retuns true if its only on its list an not proto
+3. extend puts the internal prop of those from whom extending directly inide the caler sa its own proprty.
+4. what extedn is doing is called reflection its looking over the prop of oher obj and setting its own prop
+
+
+
+1. when parser see new keyword it creat an empty obejt {}
+2. this now points to that empty obejct. so wahtever U do now with this will go in empty obejct.
+3. function constuctor
+
+
+1. function constructor already sets pototype fr U
+2. every function has a prototype oebcjt which is used when we use fucntion asn func contructor. its ot the prototype od the function but the obejct we set it to.
+
+
+1. if we add metods to function then all the 1000 obejct will have to store thse methods even though they may not need all of them
+2. strougn methds in protype helpfd efficeny as it gets stored once  in ptitype of the function whci can be sued by all 1000 obehct from function contructor
+3. put prop in fucn and methds in proto
+
+
+1. if U miss new before a function contructor then it will return undefiend fromt he function and all the obehct will be set ot undefined
+2. convention is to make the first char of the function contructor as captital which separats then from simple functions
+
+
+1. we can add methids to the proptotype of the exiting obejcts like strings, numbers using String.prototype.newMethod = ...
+2. js dosen't coberts number to obejcts
+3. make sure not to override exisitng protype fucntions
+
+
+1. do not make premitive types using  func contrtors... premitvie and premitive obejct from func cont arenot same.so it canc reate issues.
+2. thre is a diff bw var c = Number('3') and var c =new Number(3)..former is safe and will act as interger/number adot obejct.later creats an obejct
+3. spread is a new way for js with ...other which means all other gets wrapped in anarray called other..and can be accesed fro there.
+
+
+
+
+1. we also set arguments in function exection context
+2. we ahve special field present called arguments which contain all the param we are passing to that function.looks liek na array.it looks likeand array but not exactly lik an js array
+3. 
+
+1. Iterating over array with for in can bring prototype features also.
+2. its best practicve to iterateover array with sueual for loop
+
+
+
+1. class in JS is not a blueprint like other PL but its an object
+2. this way it differs frm other PL classes.
+3. classes in JS is just a syntatic suhar for creating objects.its still 
+prototypal inheritanceand not classical
+
+
+
+
+1. typeof tells the type of the literal
+2. it gives type of array as obejct. so we can do Object.prototype.toString.call(arrayVar)..this will run obejct  toString funtion on array Variable and gives correct res
+3. typeof null is Object. its a bug forever and cannot eb changed bcz of lot of API dependency
+4. instance of tels whetehr the operand in condiration has nay connection to that instance in thorughout its prototype chain. If yes it returs true 
+4. type of function expresion var is function . var z = function() {}...
+
+
+
+1. strict mode try to infrce some type checking in the code
+2. if present var has to be defined before using,etc or else it throws error
+3. you can use it at file scope at top of file or at function scope
+4. problem with this is not every browse rimplemet it correctly so don't rely much on this.
+5. also if first file you load has strict mode then alll the subsequent file will be processed asper strict rule and this can cause problem if other files are not that standard
+
+
+
+
+1. this will amke G$ as our alias for Greeter so that we don't have to type 
+greeter all time like Jquery but Greeter is still availabe in global context.
+
+
+
+1. if console means is console is open or not
+
+
+
+1. write code in one lang and compile to normal JS to run ebverywhere.
+2. typescript from MS is one such example which come with strong type suppoert
+2. other is traceur which helps is compiling to JS. U can wriute in JS classes and compile it to regular JS
+
+
+
+
+
+
+
+
+Wrost case will happen when all the vertes are contted to each other.then O(V^2)
+
+
+
+so we have O(V+E) just to cover if its densely connected graph or sparsely conncted graph.
+indensely connected no of edges >>> no of vertex..so O(V+E) ~ O(E)
+in denselt connected graph  no of vertes >>> no of edges ..so O(V+E) ~ O(V)
+writing O(V+E) covers botht the scenario as the larger will dominate
+
+
+
+explanation next page for running time
+
+
+How webcrawler works using BFS:
+1.Task is to search for article on BFS in GFG site.
+2. it will by looking into links on Home and will if not found will put any other link found in this page in queue and move to next link on the same page i.e Algo
+3. if it found in algo it will stop else it will put any link found there nin queue and move to DS and continue.
+4. IF all links exaustead it will start from the links in queue stating from links found in Home tab  
+5. This will continue until we find the article or have reached certain depth
+
+
+1. BFS can be used to first check if there is a path between source and dest
+
+1. only put that element in stack from where you cannot move anywhere.
+	so first E goese, then other,and so on
+
+
+
+
+1. Build system : many ide can build your project, so if your project is dependednt on many librabyies then it can do a topological sorting and find which library to build first
+2. Advanced packagin tool (apt-get) : this do a topological sorting of the list of packages o be installed or removed for a particular software program
+3. Task Scheduling : it helps in scheduling interdependent scheduling to know ahich task should procedd which one
+4. Pre requisite problems : like to study advanced algo course one have to take algo course first
+
+
+1. We only push somthing on stack if we cannot move anywher fro that node
+2. once we reach dead end in backtracking we choose any reming unvisited node at random and state thesame process as step 1
+
+time comlexity os same as DFS since we are only doing modified DFS
+
+
+1. condition : If its already visited and is part of our recursion stack, then its a cycle
+
+
+1. for each edge u,v in edge set we find the FIND operation and see if there parent is same
+2. why this works is bcz since its is undirected if we can reach from same parent to 2 diffrent nodes thn those two nodes make a cycle withthe parent.
+3. UNION(a,b) operation makes the parent of a as b. i.e you can reach b from a
+similarly UNION(a,b) union UNION (b,c) will do parent of a = b and parent of b =c. so now u can reach c from a following parent nodes.hence it helps in detecting cycle
+
+Transpose of a graph is all the edges of the graph rversed
+
+
+Item is pushed to stack only when there is no route to follow from that vertex
+number around each vertes tells the time it was reached and ended (start, end)
+
+
+
+
+all the nodes which are visited till now
+
+
+
+https://packagecontrol.io/packages/SublimeREPL
+anaconda
+
+
+*****************************  ******************************  *******************************
+
+
+
+
+
+
+
+
+
+*****************************  ******************************  *******************************
+
+
+
+width: 130px;
+margin-top: -48px;
+margin-left: -6px;
+
+
+<div class="nx-fieldtext" style="
+    font-size: 13px;
+">Create New Loan</div>
+
+<div id="sk-2Khe3M-230" data-rendered="true" class="nx-pagetitle nx-editor" style="
+    width: 130px;
+    margin-top: -48px;
+    margin-left: -6px;
+"><div class="nx-editor-header"><div class="nx-header-right"><div style="display: inline-block;"></div></div><div class="nx-status" style="display: none;"><div class="nx-status-text"></div></div><div class="nx-pagetitle-maintitle"><div class="nx-editor"><div class="nx-editor-contents-template"><div class="nx-template"><div class="nx-field" data-uid="14"><div class="nx-fieldtext" style="
+    font-size: 13px;
+">Create New Loan</div></div></div></div></div></div></div><div class="nx-messages"></div><div class="nx-editor-contents"></div></div>
+
+
+
+<div class="image-button deckImage sk-image-wrapper" id="sk-2Kho0H-238" data-rendered="true" style="
+    width: 120px;
+    height: 120px;
+"><button><img class="sm-image" alt="" src="/resource/genesis__CLSStyleSheetPack/images/House.png"></button></div>
+
+
+
+.image-button.deckImage:after {
+    content: 'Loan Opportunities';
+}
+
+
+
+
+
+
+
+
+*****************************  ******************************  *******************************
+
+
+TO target nested divs with one parent div way above and other single div containg many classes, use
+
+
+#launchpadDeckQueue .nx-item.sk-grid-division.sk-card {
+    flex: 0 0 0 !important;
+}
+
+i.e main ID space .class1.class2.class3 all classes without space between them
+and use important floag or else it wil not go
+
+
+this also helps in overiding an existing css with 00 value like above
+
+
+
+
+
+*****************************  ******************************  *******************************
+
+
+
+targetting an element insode an id
+
+#launchpadDeckQueue img {
+    height: 120px !important;
+    width: 120px !important;
+    padding-top: 15px !important;
+} 
+
+here img is html elem and is targeted with an id unsder which it exists
+
+
+
+*****************************  ******************************  *******************************
+
+
+Moving a child div over its parent container
+
+it won't go above its parent container border becasue vertical-align i set to baseline
+change it to vertical-align: top; and then set margin-top to nay negative number it willmove over its parent 
+    
+    margin-top: -50px;
+    vertical-align: top;
+
+<article class="nx-item sk-grid-division sk-card" style="margin: 2px 1px 0px;justify-content: flex-start;flex: 1 1 20px;display: block;text-align: center;/* margin-top: -30px; */"><div class="image-button deckImage sk-image-wrapper" id="sk-2Kho0H-238" data-rendered="true"><button><img class="sm-image" alt="" src="/resource/genesis__CLSStyleSheetPack/images/House.png"></button></div><div id="pageTitleAppName" data-rendered="true" class="nx-pagetitle nx-editor" style="
+    /* text-align: center; */
+    margin-top: -50px;
+    vertical-align: top;
+"><div class="nx-editor-header"><div class="nx-header-right"><div style="display: inline-block;"></div></div><div class="nx-status" style="display: none;"><div class="nx-status-text"></div></div><div class="nx-pagetitle-maintitle"><div class="nx-editor"><div class="nx-editor-contents-template"><div class="nx-template"><div class="nx-field" data-uid="20"><div class="nx-fieldtext">Create New Loan</div></div></div></div></div></div></div><div class="nx-messages"></div><div class="nx-editor-contents"></div></div></article>
+
+
+<div id="pageTitleAppName" data-rendered="true" class="nx-pagetitle nx-editor" style="
+    /* text-align: center; */
+    margin-top: -50px;
+    vertical-align: top;
+"><div class="nx-editor-header"><div class="nx-header-right"><div style="display: inline-block;"></div></div><div class="nx-status" style="display: none;"><div class="nx-status-text"></div></div><div class="nx-pagetitle-maintitle"><div class="nx-editor"><div class="nx-editor-contents-template"><div class="nx-template"><div class="nx-field" data-uid="20"><div class="nx-fieldtext">Create New Loan</div></div></div></div></div></div></div><div class="nx-messages"></div><div class="nx-editor-contents"></div></div>
+
+
+or
+make same level sibling as display:inline
+
+and make parent maegin-bottom as -ve value to pull same sibling up
+
+
+*****************************  ******************************  *******************************
+
+To center div inside a parent div
+amke parent div as block ..and set its property text-align to center
+and child div as inline block
+
+try not giving parent and chid div same width..remove with and theen try centering..by using amrgin property
+
+#launchpadDeckQueue .nx-item.sk-grid-division.sk-card {   parent div
+    flex: 0 0 0 !important;
+    display: block;
+    text-align: center;
+    }
+
+#pageTitleAppName   //child div
+width: 170px; */
+    margin-top: -50px;
+    vertical-align: top;
+    display: inline-block;
+    margin-left: -33px;
+    }
+
+
+
+*****************************  ******************************  *******************************
+
+
+Hovering chilsd elemnt to when hovering over parent
+
+If the cube is directly inside the container:
+
+#container:hover > #cube { background-color: yellow; }
+If cube is next to (after containers closing tag) the container:
+
+#container:hover + #cube { background-color: yellow; }
+If the cube is somewhere inside the container:
+
+#container:hover #cube { background-color: yellow; }
+If the cube is a sibling of the container:
+
+#container:hover ~ #cube { background-color: yellow; }
+
+
+
+
+*****************************  ******************************  *******************************
+alignig imges one after another horizontally
+
+background-color: white;
+
+#report-list-icon {
+    float: left;
+    width: 16%;
+    margin-right: 11px;
+    margin-bottom: 10px;
+
+
+
+
+*****************************  ******************************  *******************************
+
+what does margin:auto do in css
+
+
+0 is for top-bottom and auto for left-right. It means that left and right margin will take auto margin according to the width of the element and the width of the container. Generally if you want to put any element at center position then margin:auto works perfectly. But it only works in block elements
+
+
+https://stackoverflow.com/questions/3170772/what-does-auto-do-in-margin0-auto
+
+Specifying auto as the second parameter basically tells the browser to automatically determine the left and right margins itself, which it does by setting them equally. It guarantees that the left and right margins will be set to the same size. The first parameter 0 indicates that the top and bottom margins will both be set to 0.
+
+margin-top:0;
+margin-bottom:0;
+margin-left:auto;
+margin-right:auto;
+
+Therefore, to give you an example, if the parent is 100px and the child is 50px, then the auto property will determine that there's 50px of free space to share between margin-left and margin-right:
+
+var freeSpace = 100 - 50;
+var equalShare = freeSpace / 2;
+Which would give:
+
+margin-left:25;
+margin-right:25;
+
+*****************************  ******************************  *******************************
+
+Hovering over multiple elemts at once:
+
+https://stackoverflow.com/questions/1462360/css-hover-one-element-effect-for-multiple-elements
+
+
+.section { background:#ccc; }
+.layer { background:#ddd; }
+.section:hover img { border:2px solid #333; }
+.section:hover .layer { border:2px solid #F90; }
+
+*********
+#launchpadDeckQueue article.nx-item.sk-grid-division.sk-card:hover {
+    background: #c8c8c8;
+}
+
+#launchpadDeckQueue article.nx-item.sk-grid-division.sk-card:hover img {
+    background: #c8c8c8;
+}
+
+
+
+
+*****************************  ******************************  *******************************
+
+
+margin: 2px 1px 41px;
+    justify-content: flex-start;
+    flex: 1 1 20px;
+    /* margin-right: 31px; */
+}
+<style>…</style>
+#launchpadDeckQueue .nx-item.sk-grid-division.sk-card {
+    flex: none !important;
+    display: block;
+    text-align: center;
+    height: auto;
+    width: 13%;
+    background-color: white;
+    margin-right: 23px !important;
+
+
+#launchpadDeckQueue
+width: 100%;
+
+
+
+*****************************  ******************************  *******************************
+
+
+
+windowSize = $("window").width();
+
+if(windowSize >= 1000){
+$("img").attr("src","bigFile.png")
+}
+if(windowSize <= 999 && windowSize >= 500){
+$("img").attr("src","mediumFile.png")
+}
+if(windowSize < 499){
+$("img").attr("src","mobileFile.png")
+}
+Alternatively you could use something like:
+
+if(windowSize >= 1000){
+    $("imageContainer").html("<img src="bigFile">);
+}
+
+
+
+
+
+
+*****************************  ******************************  *******************************
+
+
+
+
++-----------------------------------------+
+| +-------+                     +-------+ |
+| | Text1 |                     | Text1 | |
+| +-------+                     +-------+ |
+|+----------------------------------------+
+You have to do this :
+
+<div style="overflow:auto">
+    <div style="display:inline-block;float:left"> Text1 </div>
+    <div style="display:inline-block;float:right"> Text2 </div>
+</div>
+
+
+
+
+*****************************  ******************************  *******************************
+
+
+console.log('windowSize ',windowSize);
+        // $('#launchpadDeckQueue').css({
+        //     'width':'100%'
+        // });
+        
+        // if(windowSize > 1500) {
+        //     $('#launchpadDeckQueue .nx-item.sk-grid-division.sk-card').css({
+        //         // 'width':'244px',
+        //         // 'height':'177px',
+        //         'width': '14%',
+        //         'height': 'auto',
+        //         'margin-right': '28px'
+        //     });
+            
+        //     $('#add-new-app-wrapper').css({
+        //         // 'width':'244px',
+        //         // 'height':'177px',
+        //         // 'margin-right': '23px'
+        //         'width':'9%',
+        //         // 'height':'auto',
+        //         'height': '158px',
+        //         'margin-top': -'16px',
+        //         // 'margin-left': '-263px'
+                
+        //     });
+            
+        // } else {
+        //     $('#launchpadDeckQueue .nx-item.sk-grid-division.sk-card').css({
+        //         // 'width':'13%',
+        //         // 'height':'auto',
+        //         'margin-right': '20px'
+        //     });
+            
+            // $('#add-new-app-wrapper').css({
+            //     'width':'13%',
+            //     'height':'auto',
+            //     'margin-right': '13px'
+            // });
+            
+        // }
+
+
+
+
+            $('#add-new-app-wrapper').css({
+                'width':'13%',
+                'height':'157px',
+                'margin-right': '13px'
+            });
+        
+
+
+*****************************  ******************************  *******************************
+
+
+To move child elemnt inside parent width
+set inside child lem container to width 100% of parent,,then U can move child elemtn insde and it will not cross parent winth nor soe it increse parent width f  U increase child elem width..it will be contained..
+
+
+
+
+
+
+*****************************  ******************************  *******************************
+
+CSS: dynamic width of child elements to be fit the parent width
+
+
+
+
+<ul>
+    <li>one</li>
+    <li>two</li>
+    <li>three</li>
+    <li>three</li>
+    <li>three</li>
+</ul>
+
+
+ul{padding:5px;border:1px solid black;display:-webkit-box;}
+li{-webkit-box-flex:1}
+
+You might be able to use css3's flex-box.
+
+ul{display:box;}
+li{box-flex:1;}
+
+
+http://jsfiddle.net/wKKte/
+
+or simply make a div inside and set its width to 100% of parent and now all its chile will be taking 100% of oarent and will move inside it and not outside .and will now increase size of parent of its size increse
+
+*****************************  ******************************  *******************************
+
+$(document).ready(function(){
+
+     var gWidth = 100,
+          pWidth = giwdth - 10,
+          cWidth = pWidth - 10;
+
+     $('#grandparent').css('height', gWidth+'px');
+     $('#parent').css('height', pWidth+'px');
+     $('.child').css('height', cWidth+'px');
+
+}
+This is basically dynamically setting the parent and child width to be 10px less than their parent respectively.
+
+
+
+
+
+
+
+*****************************  ******************************  *******************************
+
+
+to make sibling takes margin from their sibling instead of parent
+
+using display = inlcin-block and set margin-top prport
+no wit will take as per above sibling and not top parent
+
+
+
+
+
+
+*****************************  ******************************  *******************************
+
+
+
+to expand div heigth along with content height
+
+set min-height: 100%
+and mn-height:100vh;
+
+explanantion:
+    
+I added Bootstrap to a project with section tags that I had set to 100% of screen height. It worked well until I made the project responsive, at which point I borrowed part of jennyfofenny's answer so my section background matched background of the content when the screen size changed on smaller screens.
+
+My new section CSS looks like this:
+
+section {
+    // min-height so it looks good on big screen
+    // but resizes on a small-screen
+    min-height: 100%;
+    min-height: 100vh;
+    width:100%;
+    width:100vh;
+}
+
+https://stackoverflow.com/questions/1709442/make-divs-height-expand-with-its-content
+
+
+
+*****************************  ******************************  *******************************
+
+https://stackoverflow.com/questions/6916079/two-divs-on-the-same-row-and-center-align-both-of-them
+Two Divs on the same row and center align both of them
+
+
+
+
+<div class="container">
+    <div class="div1">Div 1</div>
+    <div class="div2">Div 2</div>
+</div>
+CSS
+
+div.container {
+    background-color: #FF0000;
+    margin: auto;   
+    width: 304px;
+}
+
+div.div1 {
+    border: 1px solid #000;
+    float: left;
+    width: 150px;
+}
+
+div.div2 {
+    border: 1px solid red;
+    float: left;
+    width: 150px;
+}
+
+
+Use display:inline-block with text-align:center on the parent
+
+*****************************  ******************************  *******************************
+
+CSS How to align two DIVs on the same line without using floats
+
+
+https://stackoverflow.com/questions/22333942/css-how-to-align-two-divs-on-the-same-line-without-using-floats
+
+Use display:inline-block with text-align:center on the parent
+
+for Container
+
+text-align:center;
+for boxes
+
+ display:inline-block;
+
+
+
+
+
+
+*****************************  ******************************  *******************************
+
+Two div blocks on same line
+
+
+https://stackoverflow.com/questions/10451445/two-div-blocks-on-same-line
+
+
+CSS:
+
+#block_container
+{
+    text-align:center;
+}
+#bloc1, #bloc2
+{
+    display:inline;
+}
+
+
+
+
+*****************************  ******************************  *******************************
+
+
+
+
+
+
+
+
+
+*****************************  ******************************  *******************************
+
+
+
+
+
+
+
+
+
+*****************************  ******************************  *******************************
+
+
+
+
+
+
+
+
+
+*****************************  ******************************  *******************************
+
+
+
+
+
+
+
+
+
+*****************************  ******************************  *******************************
+
+
+
+
+
+
+
+
+
+*****************************  ******************************  *******************************
+
+
+
+
+
+
+
+
+
+*****************************  ******************************  *******************************
+
+
+
+
+
+
+
+
+
+*****************************  ******************************  *******************************
+
+
+
+
+
+
+
+
+
+*****************************  ******************************  *******************************
+
+
+
+
+
+
+
+
+
+*****************************  ******************************  *******************************
+
+
+
+
+
+
+
+
+
+*****************************  ******************************  *******************************
+
+
+
+
+
+
+
+
+
+*****************************  ******************************  *******************************
+
+
+
+
+
+
+
+
+
+*****************************  ******************************  *******************************
+
+
+
+
+
+
+
+
+
+*****************************  ******************************  *******************************
+
+
+
+
+
+
+
+
+
+*****************************  ******************************  *******************************
+
+
+
+
+
+
+
+
+
+*****************************  ******************************  *******************************
+
+
+
+
+
+
+
+
+
+*****************************  ******************************  *******************************
+
+
+
+
+
+
+
+
+
+*****************************  ******************************  *******************************
+
+
+
+
+
+
+
+
+
+*****************************  ******************************  *******************************
+
+
+
+
+
+
+
+
+
+*****************************  ******************************  *******************************
+
+
+
+
+
+
+
+
+
+*****************************  ******************************  *******************************
+
+
+
+
+
+
+
+
+
+*****************************  ******************************  *******************************
+
+
+
+
+
+
+
+
+
+*****************************  ******************************  *******************************
+
+
+
+
+
+
+
+
+
+*****************************  ******************************  *******************************
+
+
+
+
+
+
+
+
+
+*****************************  ******************************  *******************************
+
+
+
+
+
+
+
+
+
+*****************************  ******************************  *******************************
+
+
+
+
+
+
+
+
+
+*****************************  ******************************  *******************************
+
+
+
+
+
+
+
+
+
+*****************************  ******************************  *******************************
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

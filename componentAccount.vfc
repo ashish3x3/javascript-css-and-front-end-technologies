@@ -1,0 +1,31 @@
+<apex:component controller="SaveApplication">
+   
+    <apex:attribute name="myattribute1" type="String" description="TODO: Describe me"/>
+    <p ng-controller = "AccountController">
+        {{helloTo.title}}
+    </p>
+    
+     
+     
+   
+    <script>
+        app.controller("AccountController",['$scope', 'dataService', 'requestNotificationChannel', function($scope, dataService, requestNotificationChannel) {
+            $scope.helloTo = {};
+            $scope.helloTo.title = "Account Controller";
+            
+            var onSubmitHandler = function() {
+                //call controller saveApplication to save as per received data objectAPIName
+              		console.log('called onsubmit handler of account component --- ');
+                //window.alert('called onsubmit handler of account component --- call controller saveApplication to save as per received data objectAPIName');
+                
+        	};
+            
+            requestNotificationChannel.onSubmitData($scope, onSubmitHandler);
+            
+            
+        }]);
+      
+    </script>
+    
+   
+</apex:component>

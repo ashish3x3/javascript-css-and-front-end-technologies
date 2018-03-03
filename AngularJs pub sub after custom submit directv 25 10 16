@@ -1,0 +1,818 @@
+var app = angular.module("mainApp", ['ngRoute',
+                                     'elif',
+                                     'ui.bootstrap',
+                                     'ngMessages']); 
+
+var controllerProvider = null;
+var $routeProviderReference;
+var $objectApiNameIdMapList = [];
+var myApiNameIdMap = new Map();
+
+app.constant('USER_ROLES', {
+    all               : '*',
+    nonPortaluser     : 'non-portal-user',
+    portalUser        : 'portal-user',
+    portalPartnerUser : 'portal-parner-user'
+});
+
+app.constant('AUTH_EVENTS', {
+    loginSuccess     : 'auth-login-success',
+    loginFailed      : 'auth-login-failed',
+    logoutSuccess    : 'auth-logout-success',
+    sessionTimeout   : 'auth-session-timeout',
+    notAuthenticated : 'auth-not-authenticated',
+    notAuthorized    : 'auth-not-authorized'
+});
+
+app.controller('MainController', ['$scope',
+                                  'dataService',
+                                  'requestNotificationChannel',
+                                  '$location',
+                                  'AuthenticationService', 
+                                  '$q', 
+                                  '$log',
+                                  '$window',
+                                  '$routeParams', 
+                                  function($scope, 
+                                           dataService, 
+                                           requestNotificationChannel,
+                                           $location,
+                                           AuthenticationService,
+                                           $q,
+                                           $log,
+                                           $window,
+                                           $routeParams) {
+                                      
+    
+	
+    $scope.hideit         = true;                                  
+    $scope.renderLogin    = false;
+    $scope.renderRegister = false;
+    console.log('$scope.hideit ',$scope.hideit);
+    var defer  = $q.defer();
+    var currentRoute = $location.path('/');
+    console.log('currentRoute ',currentRoute);    
+    console.log('currentRoute.$$Url ',currentRoute.$$url);
+    
+                       
+    
+    var onrenderLoginHandler = function(formType) {
+        if(formType == "Login"){
+            $scope.renderLogin    = true;
+            $scope.renderRegister = false;
+            $location.path('/login');
+        }
+        
+        if(formType == "Register"){
+            $scope.renderRegister = true;
+            $scope.renderLogin    = false;
+            $location.path('/register');
+        }
+        
+        if(formType == "Cancel"){
+            $scope.renderLogin    = false;
+            $scope.renderRegister = false;
+            $location.path('/');
+        }
+        
+    };
+            
+    requestNotificationChannel.onSubmitFormType($scope, onrenderLoginHandler);
+        
+}]);
+
+//define the request notification channel for the pub/sub service
+app.factory('requestNotificationChannel', ['$rootScope', function ($rootScope) {
+    
+    var _SUBMIT_DATA_      = '_SUBMIT_DATA_';
+    var _SUBMIT_FORM_TYPE_ = ['Login','Register','Cancel'];
+      
+    var submitData = function () {
+        console.log('called pub sub broadcast');
+        $rootScope.$broadcast(_SUBMIT_DATA_);
+    };
+    
+    var onSubmitData = function($scope, handler) {
+        console.log('onSubmitData in pubsub');
+        $scope.$on(_SUBMIT_DATA_, function(event, args) {       
+        	handler();
+    	});
+	};
+    
+    var submitFormType = function(formType) {
+        $rootScope.Login = formType;
+        $rootScope.$broadcast(_SUBMIT_FORM_TYPE_, {'formType' : formType});    //Login,Register,Cancel
+    };
+    
+    var onSubmitFormType = function($scope, handler) {
+        $scope.$on(_SUBMIT_FORM_TYPE_, function(event, args) {       
+    		handler(args.formType);
+        });
+    };
+   
+    // return the publicly accessible methods
+    return {
+      submitData       : submitData,
+      onSubmitData     : onSubmitData,
+      submitFormType   : submitFormType,
+      onSubmitFormType : onSubmitFormType
+    };
+}]);
+
+//
+app.factory('mapObjectNameApiToIdService', function() {
+    
+        var objectApiNameIdMap = {};
+        var mapObjectApiNameToId = function(objectApiName, 
+                                            Id) {
+            							console.log('inside objectApiNameIdMapList factory',objectApiName,Id);
+            							
+                                        if(objectApiName !== undefined && Id !== null) {
+                                            console.log('inside objectApiNameIdMapList not undefined',objectApiName,Id);
+                                            var isSameObjectApiName = false;
+                                            var keepGoingForList    = true;  //act as break statement for angular forEach
+                                            var keepGoingInsideList = true;
+                                            
+                                            angular.forEach($objectApiNameIdMapList,function(prop,i) {
+                                                
+                                                if(keepGoingForList) {
+                                                    console.log('prop,i ',prop,i);
+                                                    
+                                                	keepGoingInsideList = true;
+                                                    angular.forEach(prop,function(value,key) {
+                                                        if(keepGoingInsideList) {
+                                                            if(key == objectApiName) {
+                                                                isSameObjectApiName = true;
+                                                                keepGoingInsideList = false;
+                                                                
+                                                            }
+                                                        }
+                                                        
+                                                    })
+                                                    
+                                                    if(isSameObjectApiName == true) {
+                                                        keepGoingForList = false;
+                                                        delete $objectApiNameIdMapList[i];
+                                                        
+                                                    }
+                                                }  
+                                            })
+                                                  
+                                            
+                                           if(isSameObjectApiName == false) {
+                                                console.log('abot to save');
+                                                objectApiNameIdMap[objectApiName] = Id;
+                                                $objectApiNameIdMapList.push(objectApiNameIdMap);
+                                                console.log('objectApiNameIdMapList  ',$objectApiNameIdMapList);
+                                            }
+                                                                                        
+                                        }
+                                        
+                                    
+                                    }
+        
+        return {
+        	mapObjectApiNameToId: mapObjectApiNameToId
+    	}
+});
+
+// define the data service that manages the data
+app.factory('dataService', ['requestNotificationChannel', function (requestNotificationChannel) {
+    
+    // sends notification that data has been updated
+    var submitEvent = function(item) {
+        requestNotificationChannel.submitData(item);
+    };
+    
+    // return the publicly accessible methods
+    return {
+        submitEvent: submitEvent
+        
+    }
+}]);
+
+app.factory('AuthenticationService', AuthenticationService);
+AuthenticationService.$inject = ['$http', 
+                                 '$rootScope',
+                                 '$timeout',
+                                 '$q',
+                                 '$log',
+                                ];
+function AuthenticationService($http, 
+                               $rootScope,
+                               $timeout,
+                               $q,
+                               $log) {
+    
+        var service = {};
+ 
+        service.Login            = Login;
+        service.SetCredentials   = SetCredentials;
+        service.ClearCredentials = ClearCredentials;
+ 
+        return service;
+ 
+        function Login(username, password) {
+            
+            var defer        = $q.defer();
+            console.log(username,password);
+ 			             
+            CustomLoginController.RemoteLogin(username, password, function(response,
+                                                                           event) {
+                if(event.status) {
+                    defer.resolve(response);
+                } 
+                else {
+                    $log.error(event.message);
+                    defer.reject(event.message);
+                }       
+            },{escape:true, buffer: true});
+            
+            return defer.promise;
+        }
+ 
+        function SetCredentials(username, password) {
+            
+            $rootScope.globals = {
+                currentUser: {
+                    username: username
+                }
+            };
+ 
+            //$http.defaults.headers.common['Authorization'] = 'Basic ' + authdata; 
+        }
+ 
+        function ClearCredentials() {
+            $rootScope.globals = {};
+            $http.defaults.headers.common.Authorization = 'Basic';
+        }
+    }
+ 
+app.factory('RemoteApiFactory',['$q', 
+                                '$log',
+                                function($q,
+                                         $log) {
+    
+    var apiFunctions = {};
+    
+                                    
+    apiFunctions.saveFileds = function(fieldsList){
+        var defer        = $q.defer();
+        console.log(JSON.stringify(fieldsList));
+        CLPortalHomeController.processRecords(fieldsList,function(response,
+                                                                  event) {
+            if(event.status) {
+                defer.resolve(response);
+            } 
+            else {
+                $log.error(event.message);
+                defer.reject(event.message);
+            }       
+        },{escape:true, buffer: true});
+        
+        return defer.promise;
+    } ,  
+        apiFunctions.getFields = function(userName){ 
+            var defer        = $q.defer();
+            CLPortalHomeController.dynamicFieldControl(userName, function(response,
+                                                                          event) {
+                if(event.status) {
+                    defer.resolve(response);
+                } 
+                else {
+                    $log.error(event.message);
+                    defer.reject(event.message);
+                }       
+            },{escape:true, buffer: true});
+            
+            return defer.promise;
+        }
+        
+        return apiFunctions;
+}]);
+
+app.factory('FieldSetFactory', ['$q', 
+                                '$log',
+                                '$rootScope', 
+                                function($q, 
+                                         $log,
+                                         $rootScope) {
+    
+    var fieldSet = {};
+     
+    fieldSet.getFields = function(scope,
+                                  fieldSetName, 
+                                  objectName) { 
+        
+                            var defer = $q.defer();
+                            this.scope = scope;
+                            var self = this;
+                              
+                            FieldSetController.getFieldSetInfo(fieldSetName,objectName,function(response, event) {
+                            
+                            if(event.status) {
+                                //console.log('response = ',response);
+                                var someObj = {};
+                                someObj = response;
+                                defer.resolve(someObj); 
+                            } 
+                            else {
+                                $log.error(event.message);
+                                defer.reject(event.message);
+                            }   
+                                                
+                            
+                        }); 
+                        console.log();
+                        return defer.promise;
+                    }
+    
+    fieldSet.getFieldsWithValue = function(scope,
+                                           objectName, 
+                                           fieldSetName, 
+                                           objectRecordId) { 
+        
+                                    var defer = $q.defer();
+                                    this.scope = scope;
+                                    var self = this;
+                                    
+                                    FieldSetController.getFieldSetInfoWithValue(fieldSetName,
+                                                                                objectName,
+                                                                                objectRecordId,
+                                                                                function(response,
+                                                                                         event) {
+                                                                                    
+                                        if(event.status) {
+                                            //console.log('response = ',response);
+                                            var someObj = {};
+                                            someObj     = response;
+                                            defer.resolve(someObj); 
+                                        } 
+                                        else {
+                                            $log.error(event.message);
+                                            defer.reject(event.message);
+                                        }   
+                                    }); 
+                                    
+                                    return defer.promise;
+                                }
+    
+    fieldSet.getPicklistValues = function(scope,
+                                          objectName, 
+                                          fieldsetNameList) { 
+        
+                                    var defer = $q.defer();
+                                    this.scope = scope;
+                                    var self = this;
+                                    
+                                    FieldSetController.getPicklistValue(objectName,
+                                                                        fieldsetNameList,
+                                                                        function(response,
+                                                                                 event) {
+                                                                                    
+                                        if(event.status) {
+                                            //console.log('response = ',response);
+                                            var someObj = {};
+                                            someObj     = response;
+                                            defer.resolve(someObj); 
+                                        } 
+                                        else {
+                                            $log.error(event.message);
+                                            defer.reject(event.message);
+                                        }   
+                                    }); 
+                                    
+                                    return defer.promise;
+                                }
+    
+    fieldSet.getReferenceFieldValues = function(scope,
+                                                objectName, 
+                                                referenceListFieldName) { 
+        
+                                    var defer = $q.defer();
+                                    this.scope = scope;
+                                    var self = this;
+                                    
+                                    FieldSetController.getReferenceFieldValues(objectName,
+                                                                               referenceListFieldName,
+                                                                               function(response,
+                                                                                        event) {
+                                                                                    
+                                        if(event.status) {
+                                            //console.log('response = ',response);
+                                            var someObj = {};
+                                            someObj     = response;
+                                            defer.resolve(someObj); 
+                                        } 
+                                        else {
+                                            $log.error(event.message);
+                                            defer.reject(event.message);
+                                        }   
+                                    }); 
+                                    
+                                    return defer.promise;
+                                }
+    
+    fieldSet.getRegexForApi = function(scope, rootScope) { 
+        
+                                    var defer = $q.defer();
+                                    this.scope = scope;
+                                    var self = this;
+                                    
+                                    FieldSetController.getRegexForApi(function(response,
+                                                                               event) {
+                                                                                    
+                                        if(event.status) {
+                                            //console.log('response = ',response);
+                                            var someObj = {};
+                                            someObj     = response;
+                                            defer.resolve(someObj); 
+                                        } 
+                                        else {
+                                            $log.error(event.message);
+                                            defer.reject(event.message);
+                                        }   
+                                    }); 
+                                    
+                                    return defer.promise;
+                                }
+    
+    return fieldSet;
+                                
+}]);
+
+app.factory('FetchApplications', ['$q', 
+                                  '$log', 
+                                  function($q,
+                                           $log) {
+    
+    var fetchApp = {};
+     
+    fetchApp.getApplications = function() { 
+        var defer = $q.defer();
+        //this.scope = scope;
+        var self = this;
+        
+        ApplicationController.fetchApplicationOnAccountId(function(response, 
+                                                                   event) {
+            if(event.status) {
+                //console.log('response = ',response);
+                var someObj = {};
+                appObj = response;
+                defer.resolve(appObj); 
+            } 
+            else {
+                $log.error(event.message);
+                defer.reject(event.message);
+            }   
+        }); 
+        
+        return defer.promise;
+    }
+    
+    return fetchApp;
+                                
+}]);
+
+app.factory('RoutingTableInfo', function () {
+    var injector = angular.injector(['ng']),
+        http     = injector.get('$http'),
+        q        = injector.get('$q');
+        //console.log('q outside',q);
+    
+    return{
+        get : function() {
+            var defer = q.defer();
+            return{
+                route :  function() {
+                    Visualforce.remoting.Manager.invokeAction(
+                        'PrimeController.getRoutingInfo',
+                        function(result, event) {
+                           // console.log('....SUCCESS...',JSON.parse(JSON.stringify(result)),'--',event);
+                            if(event.status) {
+                                defer.resolve(result);
+                            } 
+                            else {
+                                $log.error(event.message);
+                                defer.reject(event.message);
+                            }   
+                            
+                        }); 
+                    return defer.promise;
+                }
+            };
+        }
+    };
+                                  
+});
+
+app.service('sharedProperties', function () {
+    var _sharedObj = {};
+    _sharedObj.columns = '';
+    
+    
+    return {
+        getColumn: function () {
+            return _sharedObj.columns;
+        },
+        
+        setColumn: function(value) {
+            _sharedObj.columns = value;
+        },
+        
+        setSelectedApplication: function(apiNameIdMap) {
+           // _sharedObj.selectedApplication = value;
+            myApiNameIdMap.set(apiNameIdMap.apiName,apiNameIdMap.Id);
+            console.log('myApiNameIdMap ',myApiNameIdMap);
+        },
+        
+        getSelectedApplication: function(apiName) {
+            //return _sharedObj.selectedApplication;
+            return myApiNameIdMap.get(apiName);
+        },
+        
+        getCreatedId: function(apiName) {
+            return myApiNameIdMap.get(apiName);
+        },
+        
+        setCreatedId: function(apiNameIdMap) {
+            myApiNameIdMap.set(apiNameIdMap.apiName,apiNameIdMap.Id);
+            console.log('myApiNameIdMap ',myApiNameIdMap);
+        }
+        
+    };
+});
+
+app.directive('customSubmit', function () {
+            console.log('directive  custom submit called #############################');
+            return {
+                //console.log('directive  custom submit called #############################');
+                restrict: 'A',
+                link: function (scope, element, attributes) {
+                    console.log('directive  custom submit called #############################');
+                    var $element = angular.element(element);
+                    var firstInvalid = element[0].querySelector('.ng-invalid');
+                    console.log('firstInvalid ',firstInvalid);
+                    
+                    console.log('$element@@@@@@@@@@@@@@@@@@ ',$element);
+            
+                    if (attributes["novalidate"] == undefined)
+                        attributes.$set('novalidate', 'novalidate');
+            
+                    element.bind('submit', function (e) {
+                        e.preventDefault();
+                        console.log('directive  custom submit called ############################# submit check');
+                        
+                        var $element = angular.element(element);
+                    	console.log('$element@@@@@@@@@@@@@@@@@@ ',$element);
+                        
+                        console.log(' firstInvalid requiredField@@@@@@@@@@@@@@@@@@ ',firstInvalid, requiredField);
+                        
+                        var firstInvalid = element[0].querySelector('.ng-invalid');
+                    	console.log('firstInvalid ',firstInvalid);
+                        var requiredField = element[0].querySelector('.ng-valid-required.ng-pristine');
+                        console.log('requiredField ',requiredField);
+                        
+                        angular.forEach( form , function ( formElement , fieldName ) {
+                            // If the fieldname starts with a '$' sign, it means it's an Angular
+                            // property or function. Skip those items.
+                            if ( fieldName[0] === '$' ) return;
+                            
+                            formElement.$pristine = false;
+                            formElement.$dirty = true;
+                        });
+                        scope.$apply();
+                        
+                        //check for previous error message element and remove it
+                        var errorMsgLength = angular.element(element[0].querySelectorAll('.errorMsg'));
+                        if (errorMsgLength !== null ) {
+                           console.log('there are error message ',errorMsgLength.length,errorMsgLength);
+                            
+                            for (i = 0; i < errorMsgLength.length; ++i) {
+                              errorMsgLength[i].remove();
+                            }
+                            
+                        } else {
+                            console.log('there are no error message ');
+                        }
+                        
+                         // if we find one, set focus
+                        if (firstInvalid) {
+                            firstInvalid.focus();
+                            firstInvalid.insertAdjacentHTML('afterend', '<div class="errorMsg" style="color:red;">required field</div>');
+                        }
+                        
+                        // if we find one, set focus
+                        if (requiredField) {
+                            requiredField.focus();
+                            requiredField.insertAdjacentHTML('afterend', '<div class="errorMsg" style="color:red;">required field</div>');
+                        }
+                        
+                        // Get the form object.
+                        var form = scope.$eval(attributes.name);
+                        
+                        if (form.$valid) {
+                            console.log('form valid');
+                            console.log('attributes.customSubmit ',attributes.customSubmit);
+                            // If the form is valid call the method specified
+                            scope.$eval(attributes.customSubmit);
+                            scope.$apply();
+                            return;
+                        }
+                        
+                        // Do not continue if the form is invalid.
+                        if ( form.$invalid ) {
+                            console.log('form invalid');
+                            console.log('attributes.customSubmit ',attributes.customSubmit);
+                            // Focus on the first field that is invalid.
+                            //console.log('$element.find(.ng-invalid) ',$element.find('.ng-invalid'));
+                            //$element.find( '.ng-invalid' ).first().focus();
+                            
+                            return false;
+                        }
+            
+                        //element.addClass('submitted');
+            
+                    });
+                }
+            };
+         })
+
+app.config(['$routeProvider',
+            '$locationProvider', 
+            function($routeProvider,
+                     $locationProvider) {
+            
+   $routeProvider
+   
+   .when('/login', {
+      templateUrl: 'LoginPage',
+   })
+   
+   .when('/appdetailview', {
+      templateUrl: '/apex/SelectedApplicationDetailView' 
+   })
+   
+   .when('/clportalregister', {
+      templateUrl: 'clportal'
+   })
+   
+   .when('/collateralform', {
+      templateUrl: 'CollateralForm'
+   })
+   
+   .when('/register', {
+      templateUrl: 'PortalRegistration'
+   })
+   
+   .when('/test1', {
+              templateUrl: '/apex/test1'
+           })
+   .when('/test5', {
+       templateUrl: '/apex/test5',controller: 'NextComponentController'
+   })
+   
+   .when('/applicationform', { 
+       templateUrl: 'applicationForm'
+   })
+   
+   .when('/confirmation', {
+       templateUrl: 'RegistrationConfirmation'
+   })
+   
+   .when('/esignsignatureview', {
+       templateUrl: 'esignsignatureview'
+   })
+   
+   .when('/test4', {
+       templateUrl: 'test4'
+   })
+   .when('/collateral', {
+       templateUrl: 'collaterals'
+   })
+   
+   .when('/logout', {
+       templateUrl: 'LoginSignUp'
+   })
+   
+   .when('/appdetailview/:appId', {
+       templateUrl: '/apex/SelectedApplicationDetailView'
+   })
+   
+   .when('/index', {
+       templateUrl: 'index'
+   })
+   
+   .when('/yodlee', {
+       templateUrl: 'yodleeLogin'
+   })
+   
+   //.otherwise({
+   //		redirectTo: '/index',
+    //    templateUrl: 'index'
+   // });
+    $routeProvider.when('/about', {templateUrl:'test1', resolve:{deps:function($q, $rootScope)
+        {
+            var deferred = $q.defer();
+            var dependencies =
+            [
+                'NextComponentController'
+            ];
+ 
+            $script(dependencies, function()
+            {
+                // all dependencies have now been loaded by $script.js so resolve the promise
+                $rootScope.$apply(function()
+                {
+                    deferred.resolve();
+                });
+            });
+ 
+            return deferred.promise;
+        }}});
+   /*$locationProvider.html5Mode({
+      enabled: true,
+      requireBase: true
+    }); */
+
+	
+}]);
+
+app.config(['$controllerProvider',
+            '$controllerProvider',
+            function($controllerProvider,
+                     $controllerProvider) {
+                
+        $controllerProvider.allowGlobals();
+    	app.registerCtrl = $controllerProvider.register;
+    	controllerProvider = $controllerProvider;
+                
+}]);
+
+app.factory('Auth', function(){
+var user;
+
+return{
+    setUser : function(aUser){
+        user = aUser;
+    },
+    isLoggedIn : function(){
+        return(user)? user : false;
+    }
+  }
+})
+
+app.run(function ($rootScope, $location) {
+
+    var history = [];
+
+    $rootScope.$on('$routeChangeSuccess', function() {
+        console.log('$location.$$path on change ',$location.$$path);
+        history.push($location.$$path);
+    });
+
+    $rootScope.back = function () {
+        console.log('$location.$$path ',$location.$$path);
+        var prevUrl = history.length > 1 ? history.splice(-2)[0] : "/";
+        console.log('previous url ',prevUrl);
+        $location.path(prevUrl);
+        
+    };
+
+});
+
+
+/*
+app.config(function($routeProvider) {
+     $routeProviderReference = $routeProvider;
+    
+});
+
+app.run(['$rootScope',
+         '$http',
+         '$route',
+         'RoutingTableInfo',
+         function($rootScope,
+                  $http,
+                  $route,
+                  RoutingTableInfo) {
+    
+    var jsonStr = RoutingTableInfo.get().route();
+    var routingMap;
+    jsonStr.then(function(result) {
+        //console.log('Success:......... ' + JSON.parse(result.replace(/&/g,'').replace(/quot;/g,'"')));
+        //console.log(JSON.parse(result.replace(/&/g,'').replace(/quot;/g,'"')));
+        routingMap = JSON.parse(result.replace(/&/g,'').replace(/quot;/g,'"'));
+        //console.log('routingMap=======',routingMap);
+    
+    angular.forEach(routingMap, function (value,key) {
+        //console.log('routingMap key value',key,value);
+        $routeProviderReference.when( key, { templateUrl: value } );
+    });
+    $routeProviderReference.otherwise({ redirectTo: '/' });
+    $route.reload();
+
+});
+
+}]);
+*/
